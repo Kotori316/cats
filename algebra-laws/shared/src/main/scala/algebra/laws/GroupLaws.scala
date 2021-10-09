@@ -22,7 +22,7 @@
 package algebra.laws
 
 import cats.kernel._
-import cats.kernel.instances.option._
+import cats.kernel.instances.all._
 
 import org.typelevel.discipline.Laws
 

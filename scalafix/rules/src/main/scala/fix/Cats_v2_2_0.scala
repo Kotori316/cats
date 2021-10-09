@@ -12,7 +12,7 @@ case class RemoveInstanceImports(index: SemanticdbIndex)
   extends SemanticRule(index, "RemoveInstanceImports") {
 
   override def fix(ctx: RuleCtx): Patch = ctx.tree.collect {
-    // e.g. "import cats.instances.int._" or "import cats.instances.all._"
+    // e.g. "import cats.instances.IntI._" or "import cats.instances.all._"
     case i @ Import(Importer(Select(Select(Name("cats"), Name("instances")), x), _) :: _) =>
       removeImportLine(ctx)(i)
 

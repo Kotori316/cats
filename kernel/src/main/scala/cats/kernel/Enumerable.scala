@@ -85,19 +85,19 @@ trait BoundedEnumerable[@sp A] extends PartialPreviousUpperBounded[A] with Parti
 
 object BoundedEnumerable {
   implicit def catsKernelBoundedEnumerableForUnit: BoundedEnumerable[Unit] =
-    cats.kernel.instances.unit.catsKernelStdOrderForUnit
+    cats.kernel.instances.all.catsKernelStdOrderForUnit
   implicit def catsKernelBoundedEnumerableForBoolean: BoundedEnumerable[Boolean] =
-    cats.kernel.instances.boolean.catsKernelStdOrderForBoolean
+    cats.kernel.instances.all.catsKernelStdOrderForBoolean
   implicit def catsKernelBoundedEnumerableForByte: BoundedEnumerable[Byte] =
-    cats.kernel.instances.byte.catsKernelStdOrderForByte
+    cats.kernel.instances.all.catsKernelStdOrderForByte
   implicit def catsKernelBoundedEnumerableForInt: BoundedEnumerable[Int] =
-    cats.kernel.instances.int.catsKernelStdOrderForInt
+    cats.kernel.instances.all.catsKernelStdOrderForInt
   implicit def catsKernelBoundedEnumerableForShort: BoundedEnumerable[Short] =
-    cats.kernel.instances.short.catsKernelStdOrderForShort
+    cats.kernel.instances.all.catsKernelStdOrderForShort
   implicit def catsKernelBoundedEnumerableForLong: BoundedEnumerable[Long] =
-    cats.kernel.instances.long.catsKernelStdOrderForLong
+    cats.kernel.instances.all.catsKernelStdOrderForLong
   implicit def catsKernelBoundedEnumerableForChar: BoundedEnumerable[Char] =
-    cats.kernel.instances.char.catsKernelStdOrderForChar
+    cats.kernel.instances.all.catsKernelStdOrderForChar
 
   @inline def apply[A](implicit e: BoundedEnumerable[A]): BoundedEnumerable[A] = e
 

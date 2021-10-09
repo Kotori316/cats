@@ -9,8 +9,8 @@ import scala.concurrent.Future
 
 object RemoveInstanceImportsTests {
   {
-    import cats.instances.option._
-    import cats.instances.int._
+    import cats.instances.OptionI._
+    import cats.instances.IntI._
     Semigroup[Option[Int]].combine(Some(1), Some(2))
   }
 
@@ -25,8 +25,8 @@ object RemoveInstanceImportsTests {
   }
 
   {
-    import cats.instances.option._
-    import cats.instances.int._
+    import cats.instances.OptionI._
+    import cats.instances.IntI._
     import cats.syntax.semigroup._
     Option(1) |+| Option(2)
   }
@@ -37,8 +37,8 @@ object RemoveInstanceImportsTests {
   }
 
   {
-    import cats.instances.future._
-    import cats.instances.int._
+    import cats.instances.FutureI._
+    import cats.instances.IntI._
     import scala.concurrent.ExecutionContext.Implicits.global
     Semigroup[Future[Int]]
   }

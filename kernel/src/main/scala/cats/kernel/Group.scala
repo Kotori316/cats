@@ -35,7 +35,7 @@ trait Group[@sp(Int, Long, Float, Double) A] extends Any with Monoid[A] {
    *
    * Example:
    * {{{
-   * scala> import cats.kernel.instances.int._
+   * scala> import cats.kernel.instances.all._
    *
    * scala> Group[Int].inverse(5)
    * res0: Int = -5
@@ -50,7 +50,7 @@ trait Group[@sp(Int, Long, Float, Double) A] extends Any with Monoid[A] {
    *
    * Example:
    * {{{
-   * scala> import cats.kernel.instances.int._
+   * scala> import cats.kernel.instances.all._
    *
    * scala> Group[Int].remove(5, 2)
    * res0: Int = 3

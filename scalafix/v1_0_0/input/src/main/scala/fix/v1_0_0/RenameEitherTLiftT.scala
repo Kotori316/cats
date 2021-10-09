@@ -5,7 +5,7 @@ package fix
 package to1_0_0
 
 object RenameEitherTLiftTTests {
-  import cats.instances.option._
+  import cats.instances.OptionI._
   import cats.data._
   import cats.data.EitherT._
 

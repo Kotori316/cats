@@ -290,6 +290,217 @@ lazy val binCompatTest = project
   .settings(testingDependencies)
   .dependsOn(core.jvm % Test)
 
+// cats-js is JS-only
+lazy val js = project
+  .dependsOn(core.js, tests.js % "test-internal -> test")
+  .settings(moduleName := "cats-js")
+  .settings(catsSettings)
+  .settings(commonJsSettings)
+  .enablePlugins(ScalaJSPlugin)
+
+// cats-native is Native-only
+lazy val native = project
+  .dependsOn(core.native, tests.native % "test-internal -> test")
+  .settings(moduleName := "cats-native")
+  .settings(catsSettings)
+  .settings(commonNativeSettings)
+  .enablePlugins(ScalaNativePlugin)
+
+// cats-jvm is JVM-only
+lazy val jvm = project
+  .dependsOn(core.jvm, tests.jvm % "test-internal -> test")
+  .settings(moduleName := "cats-jvm")
+  .settings(catsSettings)
+  .settings(commonJvmSettings)
+
+lazy val publishSettings = Seq(
+  homepage := Some(url("https://github.com/typelevel/cats")),
+  licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
+  scmInfo := Some(ScmInfo(url("https://github.com/typelevel/cats"), "scm:git:git@github.com:typelevel/cats.git")),
+  autoAPIMappings := true,
+  apiURL := Some(url("http://typelevel.org/cats/api/")),
+  pomExtra :=
+    <developers>
+      <developer>
+        <id>ceedubs</id>
+        <name>Cody Allen</name>
+        <url>https://github.com/ceedubs/</url>
+      </developer>
+      <developer>
+        <id>rossabaker</id>
+        <name>Ross Baker</name>
+        <url>https://github.com/rossabaker/</url>
+      </developer>
+      <developer>
+        <id>johnynek</id>
+        <name>P. Oscar Boykin</name>
+        <url>https://github.com/johnynek/</url>
+      </developer>
+      <developer>
+        <id>travisbrown</id>
+        <name>Travis Brown</name>
+        <url>https://github.com/travisbrown/</url>
+      </developer>
+      <developer>
+        <id>adelbertc</id>
+        <name>Adelbert Chang</name>
+        <url>https://github.com/adelbertc/</url>
+      </developer>
+      <developer>
+        <id>peterneyens</id>
+        <name>Peter Neyens</name>
+        <url>https://github.com/peterneyens/</url>
+      </developer>
+      <developer>
+        <id>tpolecat</id>
+        <name>Rob Norris</name>
+        <url>https://github.com/tpolecat/</url>
+      </developer>
+      <developer>
+        <id>non</id>
+        <name>Erik Osheim</name>
+        <url>https://github.com/non/</url>
+      </developer>
+      <developer>
+        <id>LukaJCB</id>
+        <name>LukaJCB</name>
+        <url>https://github.com/LukaJCB/</url>
+      </developer>
+      <developer>
+        <id>mpilquist</id>
+        <name>Michael Pilquist</name>
+        <url>https://github.com/mpilquist/</url>
+      </developer>
+      <developer>
+        <id>milessabin</id>
+        <name>Miles Sabin</name>
+        <url>https://github.com/milessabin/</url>
+      </developer>
+      <developer>
+        <id>djspiewak</id>
+        <name>Daniel Spiewak</name>
+        <url>https://github.com/djspiewak/</url>
+      </developer>
+      <developer>
+        <id>fthomas</id>
+        <name>Frank Thomas</name>
+        <url>https://github.com/fthomas/</url>
+      </developer>
+      <developer>
+        <id>julien-truffaut</id>
+        <name>Julien Truffaut</name>
+        <url>https://github.com/julien-truffaut/</url>
+      </developer>
+      <developer>
+        <id>kailuowang</id>
+        <name>Kailuo Wang</name>
+        <url>https://github.com/kailuowang/</url>
+      </developer>
+    </developers>
+) ++ sharedPublishSettings ++ sharedReleaseProcess
+
+// Scalafmt
+addCommandAlias("fmt", "; Compile / scalafmt; Test / scalafmt; scalafmtSbt")
+addCommandAlias("fmtCheck", "; Compile / scalafmtCheck; Test / scalafmtCheck; scalafmtSbtCheck")
+
+// These aliases serialise the build for the benefit of Travis-CI.
+addCommandAlias("buildKernelJVM", ";kernelJVM/test;kernelLawsJVM/test")
+addCommandAlias("buildCoreJVM", ";coreJVM/test")
+addCommandAlias("buildTestsJVM", ";lawsJVM/test;testkitJVM/test;testsJVM/test;jvm/test")
+addCommandAlias("buildFreeJVM", ";freeJVM/test")
+addCommandAlias("buildAlleycatsJVM", ";alleycatsCoreJVM/test;alleycatsLawsJVM/test;alleycatsTestsJVM/test")
+addCommandAlias("buildJVM", ";buildKernelJVM;buildCoreJVM;buildTestsJVM;buildFreeJVM;buildAlleycatsJVM")
+addCommandAlias("validateBC", ";binCompatTest/test;catsJVM/mimaReportBinaryIssues")
+addCommandAlias("validateJVM", ";fmtCheck;buildJVM;bench/test;validateBC;makeMicrosite")
+addCommandAlias("validateJS", ";testsJS/test;js/test")
+addCommandAlias("validateKernelJS", "kernelLawsJS/test")
+addCommandAlias("validateFreeJS", "freeJS/test")
+addCommandAlias("validateAlleycatsJS", "alleycatsTestsJS/test")
+addCommandAlias("validateAllJS", "all testsJS/test js/test kernelLawsJS/test freeJS/test alleycatsTestsJS/test")
+addCommandAlias("validateNative", ";testsNative/test;native/test")
+addCommandAlias("validateKernelNative", "kernelLawsNative/test")
+addCommandAlias("validateFreeNative", "freeNative/test")
+addCommandAlias("validateAlleycatsNative", "alleycatsTestsNative/test")
+
+val validateAllNativeAlias =
+  "all testsNative/test native/test kernelLawsNative/test freeNative/test alleycatsTestsNative/test"
+addCommandAlias("validateAllNative", validateAllNativeAlias)
+
+addCommandAlias(
+  "validate",
+  ";clean;validateJS;validateKernelJS;validateFreeJS;validateNative;validateKernelNative;validateFreeNative;validateJVM"
+)
+
+addCommandAlias("prePR", "fmt")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Base Build Settings - Should not need to edit below this line.
+// These settings could also come from another file or a plugin.
+// The only issue if coming from a plugin is that the Macro lib versions
+// are hard coded, so an overided facility would be required.
+
+addCommandAlias("gitSnapshots", ";set version in ThisBuild := git.gitDescribedVersion.value.get + \"-SNAPSHOT\"")
+
+lazy val noPublishSettings = Seq(
+  publish := {},
+  publishLocal := {},
+  publishArtifact := false
+)
+
+lazy val crossVersionSharedSources: Seq[Setting[_]] =
+  Seq(Compile, Test).map { sc =>
+    sc / unmanagedSourceDirectories ++= {
+      (sc / unmanagedSourceDirectories).value.map { dir: File =>
+        new File(dir.getPath + "_" + scalaBinaryVersion.value)
+      }
+    }
+  }
+
+def commonScalacOptions(scalaVersion: String, isDotty: Boolean) =
+  Seq(
+    "-encoding",
+    "UTF-8",
+    "-feature",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-deprecation"
+  ) ++ (if (priorTo2_13(scalaVersion))
+          Seq(
+            "-Yno-adapted-args",
+            "-Ypartial-unification",
+            "-Xfuture"
+          )
+        else
+          Nil) ++ (if (isDotty)
+                     Seq("-language:implicitConversions", "-Ykind-projector", "-Xignore-scala2-macros")
+                   else
+                     Seq(
+                       "-language:existentials",
+                       "-language:higherKinds",
+                       "-language:implicitConversions",
+                       "-Ywarn-dead-code",
+                       "-Ywarn-numeric-widen",
+                       "-Ywarn-value-discard",
+                       "-Xlint:-unused,_"
+                     ))
+
+def priorTo2_13(scalaVersion: String): Boolean =
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((2, minor)) if minor < 13 => true
+    case _                              => false
+  }
+
+lazy val sharedPublishSettings = Seq(
+  releaseTagName := tagName.value,
+  releaseVcsSign := true,
+  publishMavenStyle := true,
+  Test / publishArtifact := false,
+  pomIncludeRepository := Function.const(false),
+  publishTo := {
+    Some(MavenCache("local-maven", file("build/")))
+  }
+)
+
 lazy val docs = project
   .in(file("site"))
   .enablePlugins(TypelevelSitePlugin)

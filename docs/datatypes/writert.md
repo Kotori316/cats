@@ -136,7 +136,7 @@ to fill the `L` value not specified in the input.
 * [`Applicative[F]`](../typeclasses/applicative.md) to modify the inner value.
 
 ```scala mdoc:nest
-  import cats.instances.option._
+  import cats.instances.OptionI._
 
   val value : Option[Int] = Some(123)
 

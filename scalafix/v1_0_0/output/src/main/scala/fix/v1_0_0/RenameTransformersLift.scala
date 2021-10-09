@@ -2,8 +2,8 @@ package fix
 package to1_0_0
 
 object RenameTransformersLiftTests {
-  import cats.instances.option._
-  import cats.instances.string._
+  import cats.instances.OptionI._
+  import cats.instances.StringI._
   import cats.data.{Kleisli, StateT, WriterT}
 
   val fa: Option[Int] = Some(42)

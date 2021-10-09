@@ -65,7 +65,7 @@ class EitherSuite extends CatsSuite {
            SerializableTests.serializable(Semigroup[Either[ListWrapper[String], Int]])
   )
 
-  val partialOrder = cats.kernel.instances.either.catsStdPartialOrderForEither[Int, String]
+  val partialOrder = cats.kernel.instances.all.catsStdPartialOrderForEither[Int, String]
   val order = implicitly[Order[Either[Int, String]]]
   val monad = implicitly[Monad[Either[Int, *]]]
   val show = implicitly[Show[Either[Int, String]]]
@@ -105,7 +105,7 @@ class EitherSuite extends CatsSuite {
   }
 
   test("implicit instances resolve specifically") {
-    val eq = cats.kernel.instances.either.catsStdEqForEither[Int, String]
+    val eq = cats.kernel.instances.all.catsStdEqForEither[Int, String]
     assert(!eq.isInstanceOf[PartialOrder[_]])
     assert(!eq.isInstanceOf[Order[_]])
     assert(!partialOrder.isInstanceOf[Order[_]])
@@ -399,7 +399,7 @@ class EitherSuite extends CatsSuite {
 final class EitherInstancesSuite extends munit.FunSuite {
 
   test("parallel instance in cats.instances.either") {
-    import cats.instances.either._
+    import cats.instances.EitherI._
     import cats.syntax.parallel._
 
     def either: Either[String, Int] = Left("Test")

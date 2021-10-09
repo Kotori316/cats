@@ -6,8 +6,8 @@ package to1_0_0
 
 object RemoveCartesianBuilderTests {
   {
-    import cats.instances.option._
-    import cats.instances.int._
+    import cats.instances.OptionI._
+    import cats.instances.IntI._
     import cats.syntax.cartesian._
     import cats.syntax.semigroup._
     val o1: Option[Int] = Some(42)

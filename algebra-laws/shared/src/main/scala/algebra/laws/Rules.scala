@@ -24,7 +24,7 @@ package algebra.laws
 import cats.kernel._
 import org.scalacheck.Prop._
 import org.scalacheck.{Arbitrary, Prop}
-import cats.kernel.instances.boolean._
+import cats.kernel.instances.all._
 import cats.kernel.laws.discipline.SerializableTests
 
 object Rules {
