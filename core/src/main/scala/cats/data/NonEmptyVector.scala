@@ -359,7 +359,7 @@ final class NonEmptyVector[+A] private (val toVector: Vector[A])
    * Creates new `NonEmptySet`, similarly to List#toSet from scala standard library.
    * {{{
    * scala> import cats.data._
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nev = NonEmptyVector(1, Vector(2,2,3,4))
    * scala> nev.toNes
    * res0: cats.data.NonEmptySet[Int] = TreeSet(1, 2, 3, 4)

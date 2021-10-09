@@ -360,7 +360,7 @@ final class NonEmptySeq[+A] private (val toSeq: Seq[A]) extends AnyVal with NonE
    * Creates new `NonEmptySet`, similarly to List#toSet from scala standard library.
    * {{{
    * scala> import cats.data._
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> import scala.collection.immutable.Seq
    * scala> val neSeq = NonEmptySeq(1, Seq(2,2,3,4))
    * scala> neSeq.toNes

@@ -182,7 +182,7 @@ trait SeqInstances extends cats.kernel.instances.SeqInstances {
     }
 
   implicit val catsStdTraverseFilterForSeq: TraverseFilter[Seq] = new TraverseFilter[Seq] {
-    val traverse: Traverse[Seq] = cats.instances.seq.catsStdInstancesForSeq
+    val traverse: Traverse[Seq] = cats.instances.SeqI.catsStdInstancesForSeq
 
     override def mapFilter[A, B](fa: Seq[A])(f: (A) => Option[B]): Seq[B] =
       fa.collect(Function.unlift(f))
@@ -216,7 +216,7 @@ trait SeqInstances extends cats.kernel.instances.SeqInstances {
     new NonEmptyParallel[Seq] {
       type F[x] = ZipSeq[x]
 
-      def flatMap: FlatMap[Seq] = cats.instances.seq.catsStdInstancesForSeq
+      def flatMap: FlatMap[Seq] = cats.instances.SeqI.catsStdInstancesForSeq
       def apply: Apply[ZipSeq] = ZipSeq.catsDataCommutativeApplyForZipSeq
 
       def sequential: ZipSeq ~> Seq =

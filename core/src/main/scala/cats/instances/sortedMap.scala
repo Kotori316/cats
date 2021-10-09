@@ -31,13 +31,13 @@ import scala.collection.immutable.SortedMap
 
 trait SortedMapInstances extends SortedMapInstances2 {
 
-  @deprecated("Use cats.kernel.instances.sortedMap.catsKernelStdHashForSortedMap", "2.0.0-RC2")
+  @deprecated("Use cats.kernel.instances.all.catsKernelStdHashForSortedMap", "2.0.0-RC2")
   def catsStdHashForSortedMap[K: Hash: Order, V: Hash]: Hash[SortedMap[K, V]] =
-    cats.kernel.instances.sortedMap.catsKernelStdHashForSortedMap[K, V]
+    cats.kernel.instances.all.catsKernelStdHashForSortedMap[K, V]
 
-  @deprecated("Use cats.kernel.instances.sortedMap.catsKernelStdCommutativeMonoidForSortedMap", "2.0.0-RC2")
+  @deprecated("Use cats.kernel.instances.all.catsKernelStdCommutativeMonoidForSortedMap", "2.0.0-RC2")
   def catsStdCommutativeMonoidForSortedMap[K: Order, V: CommutativeSemigroup] =
-    cats.kernel.instances.sortedMap.catsKernelStdCommutativeMonoidForSortedMap[K, V]
+    cats.kernel.instances.all.catsKernelStdCommutativeMonoidForSortedMap[K, V]
 
   implicit def catsStdShowForSortedMap[A, B](implicit showA: Show[A], showB: Show[B]): Show[SortedMap[A, B]] =
     _.iterator
@@ -179,13 +179,13 @@ trait SortedMapInstances extends SortedMapInstances2 {
 }
 
 private[instances] trait SortedMapInstances1 {
-  @deprecated("Use cats.kernel.instances.sortedMap.catsKernelStdEqForSortedMap", "2.0.0-RC2")
+  @deprecated("Use cats.kernel.instances.all.catsKernelStdEqForSortedMap", "2.0.0-RC2")
   def catsStdEqForSortedMap[K: Order, V: Eq]: Eq[SortedMap[K, V]] =
     new SortedMapEq[K, V]
 }
 
 private[instances] trait SortedMapInstances2 extends SortedMapInstances1 {
-  @deprecated("Use cats.kernel.instances.sortedMap.catsKernelStdMonoidForSortedMap", "2.0.0-RC2")
+  @deprecated("Use cats.kernel.instances.all.catsKernelStdMonoidForSortedMap", "2.0.0-RC2")
   def catsStdMonoidForSortedMap[K: Order, V: Semigroup]: Monoid[SortedMap[K, V]] =
     new SortedMapMonoid[K, V]
 }
@@ -215,7 +215,7 @@ class SortedMapMonoid[K, V](implicit V: Semigroup[V], O: Order[K]) extends cats.
 private[instances] trait SortedMapInstancesBinCompat0 {
   implicit def catsStdTraverseFilterForSortedMap[K]: TraverseFilter[SortedMap[K, *]] =
     new TraverseFilter[SortedMap[K, *]] {
-      val traverse: Traverse[SortedMap[K, *]] = cats.instances.sortedMap.catsStdInstancesForSortedMap[K]
+      val traverse: Traverse[SortedMap[K, *]] = cats.instances.SortedMapI.catsStdInstancesForSortedMap[K]
 
       override def traverseFilter[G[_], A, B](
         fa: SortedMap[K, A]

@@ -78,10 +78,10 @@ trait Bifunctor[F[_, _]] extends Serializable { self =>
 }
 
 object Bifunctor extends cats.instances.NTupleBifunctorInstances {
-  implicit def catsBifunctorForEither: Bifunctor[Either] = cats.instances.either.catsStdBitraverseForEither
+  implicit def catsBifunctorForEither: Bifunctor[Either] = cats.instances.EitherI.catsStdBitraverseForEither
 
   @deprecated("Use catsStdBitraverseForTuple2 in cats.instances.NTupleBitraverseInstances", "2.4.0")
-  def catsBifunctorForTuple2: Bifunctor[Tuple2] = cats.instances.tuple.catsStdBitraverseForTuple2
+  def catsBifunctorForTuple2: Bifunctor[Tuple2] = cats.instances.TupleI.catsStdBitraverseForTuple2
 
   /**
    * Summon an instance of [[Bifunctor]] for `F`.

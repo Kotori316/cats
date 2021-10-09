@@ -97,16 +97,16 @@ trait Bifoldable[F[_, _]] extends Serializable { self =>
     }
 
   def bifold[A, B](fab: F[A, B])(implicit A: Monoid[A], B: Monoid[B]): (A, B) = {
-    import cats.instances.tuple._
+    import cats.instances.TupleI._
     bifoldMap(fab)((_, B.empty), (A.empty, _))
   }
 }
 
 object Bifoldable extends cats.instances.NTupleBitraverseInstances {
-  implicit def catsBitraverseForEither: Bitraverse[Either] = cats.instances.either.catsStdBitraverseForEither
+  implicit def catsBitraverseForEither: Bitraverse[Either] = cats.instances.EitherI.catsStdBitraverseForEither
 
   @deprecated("Use catsStdBitraverseForTuple2 in cats.instances.NTupleBitraverseInstances", "2.4.0")
-  def catsBitraverseForTuple2: Bitraverse[Tuple2] = cats.instances.tuple.catsStdBitraverseForTuple2
+  def catsBitraverseForTuple2: Bitraverse[Tuple2] = cats.instances.TupleI.catsStdBitraverseForTuple2
 
   /**
    * Summon an instance of [[Bifoldable]] for `F`.

@@ -284,7 +284,7 @@ trait ListInstances extends cats.kernel.instances.ListInstances {
     new NonEmptyParallel[List] {
       type F[x] = ZipList[x]
 
-      def flatMap: FlatMap[List] = cats.instances.list.catsStdInstancesForList
+      def flatMap: FlatMap[List] = cats.instances.ListI.catsStdInstancesForList
       def apply: Apply[ZipList] = ZipList.catsDataCommutativeApplyForZipList
 
       def sequential: ZipList ~> List =
@@ -298,7 +298,7 @@ trait ListInstances extends cats.kernel.instances.ListInstances {
 @suppressUnusedImportWarningForScalaVersionSpecific
 private[instances] trait ListInstancesBinCompat0 {
   implicit val catsStdTraverseFilterForList: TraverseFilter[List] = new TraverseFilter[List] {
-    val traverse: Traverse[List] = cats.instances.list.catsStdInstancesForList
+    val traverse: Traverse[List] = cats.instances.ListI.catsStdInstancesForList
 
     override def mapFilter[A, B](fa: List[A])(f: (A) => Option[B]): List[B] = fa.collect(Function.unlift(f))
 

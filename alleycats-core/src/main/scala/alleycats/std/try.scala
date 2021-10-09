@@ -61,6 +61,6 @@ trait TryInstances {
       def extract[A](p: Try[A]): A = p.get
 
       def tailRecM[A, B](a: A)(f: (A) => Try[Either[A, B]]): Try[B] =
-        cats.instances.try_.catsStdInstancesForTry.tailRecM(a)(f)
+        cats.instances.TryI.catsStdInstancesForTry.tailRecM(a)(f)
     }
 }

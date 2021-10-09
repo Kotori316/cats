@@ -525,7 +525,7 @@ sealed abstract private[data] class OptionTInstances extends OptionTInstances0 {
       implicit val monadM: Monad[M] = P.monad
 
       def applicative: Applicative[Nested[P.F, Option, *]] =
-        cats.data.Nested.catsDataApplicativeForNested(P.applicative, cats.instances.option.catsStdInstancesForOption)
+        cats.data.Nested.catsDataApplicativeForNested(P.applicative, cats.instances.OptionI.catsStdInstancesForOption)
 
       def monad: Monad[OptionT[M, *]] = cats.data.OptionT.catsDataMonadErrorMonadForOptionT[M]
 

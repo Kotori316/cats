@@ -124,7 +124,7 @@ class EitherTSuite extends CatsSuite {
     implicit val eq2: Eq[EitherT[EitherT[Option, String, *], Unit, String]] =
       EitherT.catsDataEqForEitherT[EitherT[Option, String, *], Unit, String](eq1)
     implicit val me: MonadError[EitherT[Option, String, *], Unit] =
-      EitherT.catsDataMonadErrorFForEitherT[Option, Unit, String](cats.instances.option.catsStdInstancesForOption)
+      EitherT.catsDataMonadErrorFForEitherT[Option, Unit, String](cats.instances.OptionI.catsStdInstancesForOption)
 
     Functor[EitherT[Option, String, *]]
     Applicative[EitherT[Option, String, *]]

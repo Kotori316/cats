@@ -123,25 +123,25 @@ object UnorderedFoldable
   }
 
   implicit def catsNonEmptyTraverseForId: NonEmptyTraverse[Id] = catsInstancesForId
-  implicit def catsTraverseForOption: Traverse[Option] = cats.instances.option.catsStdInstancesForOption
-  implicit def catsTraverseForList: Traverse[List] = cats.instances.list.catsStdInstancesForList
-  implicit def catsTraverseForSeq: Traverse[Seq] = cats.instances.seq.catsStdInstancesForSeq
-  implicit def catsTraverseForVector: Traverse[Vector] = cats.instances.vector.catsStdInstancesForVector
-  implicit def catsTraverseForQueue: Traverse[Queue] = cats.instances.queue.catsStdInstancesForQueue
-  implicit def catsUnorderedTraverseForSet: UnorderedTraverse[Set] = cats.instances.set.catsStdInstancesForSet
-  implicit def catsFoldableForSortedSet: Foldable[SortedSet] = cats.instances.sortedSet.catsStdInstancesForSortedSet
+  implicit def catsTraverseForOption: Traverse[Option] = cats.instances.OptionI.catsStdInstancesForOption
+  implicit def catsTraverseForList: Traverse[List] = cats.instances.ListI.catsStdInstancesForList
+  implicit def catsTraverseForSeq: Traverse[Seq] = cats.instances.SeqI.catsStdInstancesForSeq
+  implicit def catsTraverseForVector: Traverse[Vector] = cats.instances.VectorI.catsStdInstancesForVector
+  implicit def catsTraverseForQueue: Traverse[Queue] = cats.instances.QueueI.catsStdInstancesForQueue
+  implicit def catsUnorderedTraverseForSet: UnorderedTraverse[Set] = cats.instances.SetI.catsStdInstancesForSet
+  implicit def catsFoldableForSortedSet: Foldable[SortedSet] = cats.instances.SortedSetI.catsStdInstancesForSortedSet
   implicit def catsTraverseForSortedMap[K]: Traverse[SortedMap[K, *]] =
-    cats.instances.sortedMap.catsStdInstancesForSortedMap[K]
+    cats.instances.SortedMapI.catsStdInstancesForSortedMap[K]
 
   implicit def catsUnorderedTraverseForMap[K]: UnorderedTraverse[Map[K, *]] =
-    cats.instances.map.catsStdInstancesForMap[K]
+    cats.instances.MapI.catsStdInstancesForMap[K]
 
-  implicit def catsTraverseForEither[A]: Traverse[Either[A, *]] = cats.instances.either.catsStdInstancesForEither[A]
-  implicit def catsTraverseForTry: Traverse[Try] = cats.instances.try_.catsStdInstancesForTry
+  implicit def catsTraverseForEither[A]: Traverse[Either[A, *]] = cats.instances.EitherI.catsStdInstancesForEither[A]
+  implicit def catsTraverseForTry: Traverse[Try] = cats.instances.TryI.catsStdInstancesForTry
 
   @deprecated("Use catsStdInstancesForTuple2 in cats.instances.NTupleMonadInstances", "2.4.0")
   def catsInstancesForTuple[A]: Traverse[(A, *)] with Reducible[(A, *)] =
-    cats.instances.tuple.catsStdInstancesForTuple2[A]
+    cats.instances.TupleI.catsStdInstancesForTuple2[A]
 
   /**
    * Summon an instance of [[UnorderedFoldable]] for `F`.

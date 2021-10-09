@@ -24,9 +24,9 @@ package laws
 package discipline
 
 import cats.data.{AndThen, RepresentableStore, StoreT}
-import cats.instances.boolean._
-import cats.instances.int._
-import cats.instances.string._
+import cats.instances.BooleanI._
+import cats.instances.IntI._
+import cats.instances.StringI._
 import cats.kernel._
 import cats.platform.Platform
 import cats.syntax.eq._

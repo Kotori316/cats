@@ -44,7 +44,7 @@ object ZipStream {
       def empty[A]: ZipStream[A] = ZipStream(Stream.empty[A])
 
       def combineK[A](x: ZipStream[A], y: ZipStream[A]): ZipStream[A] =
-        ZipStream(cats.instances.stream.catsStdInstancesForStream.combineK(x.value, y.value))
+        ZipStream(cats.instances.StreamI.catsStdInstancesForStream.combineK(x.value, y.value))
     }
 
   implicit def catsDataEqForZipStream[A: Eq]: Eq[ZipStream[A]] =

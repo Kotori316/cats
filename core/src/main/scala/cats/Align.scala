@@ -139,14 +139,14 @@ object Align extends ScalaVersionSpecificAlignInstances {
       def combine(x: F[A], y: F[A]): F[A] = Align[F].alignCombine(x, y)
     }
 
-  implicit def catsAlignForList: Align[List] = cats.instances.list.catsStdInstancesForList
-  implicit def catsAlignForOption: Align[Option] = cats.instances.option.catsStdInstancesForOption
-  implicit def catsAlignForSeq: Align[Seq] = cats.instances.seq.catsStdInstancesForSeq
-  implicit def catsAlignForVector: Align[Vector] = cats.instances.vector.catsStdInstancesForVector
-  implicit def catsAlignForMap[K]: Align[Map[K, *]] = cats.instances.map.catsStdInstancesForMap[K]
+  implicit def catsAlignForList: Align[List] = cats.instances.ListI.catsStdInstancesForList
+  implicit def catsAlignForOption: Align[Option] = cats.instances.OptionI.catsStdInstancesForOption
+  implicit def catsAlignForSeq: Align[Seq] = cats.instances.SeqI.catsStdInstancesForSeq
+  implicit def catsAlignForVector: Align[Vector] = cats.instances.VectorI.catsStdInstancesForVector
+  implicit def catsAlignForMap[K]: Align[Map[K, *]] = cats.instances.MapI.catsStdInstancesForMap[K]
   implicit def catsAlignForSortedMap[K]: Align[SortedMap[K, *]] =
-    cats.instances.sortedMap.catsStdInstancesForSortedMap[K]
-  implicit def catsAlignForEither[A]: Align[Either[A, *]] = cats.instances.either.catsStdInstancesForEither[A]
+    cats.instances.SortedMapI.catsStdInstancesForSortedMap[K]
+  implicit def catsAlignForEither[A]: Align[Either[A, *]] = cats.instances.EitherI.catsStdInstancesForEither[A]
 
   private[cats] def alignWithIterator[A, B, C](fa: Iterable[A], fb: Iterable[B])(f: Ior[A, B] => C): Iterator[C] =
     new Iterator[C] {

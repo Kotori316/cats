@@ -52,7 +52,7 @@ class KleisliSuite extends CatsSuite {
 
   {
     implicit val instance: ApplicativeError[Kleisli[Option, MiniInt, *], Unit] =
-      Kleisli.catsDataApplicativeErrorForKleisli[Option, Unit, MiniInt](cats.instances.option.catsStdInstancesForOption)
+      Kleisli.catsDataApplicativeErrorForKleisli[Option, Unit, MiniInt](cats.instances.OptionI.catsStdInstancesForOption)
     checkAll("Kleisli[Option, MinInt, *] with Unit",
              ApplicativeErrorTests[Kleisli[Option, MiniInt, *], Unit](instance).applicativeError[Int, Int, Int]
     )

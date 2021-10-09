@@ -93,7 +93,7 @@ abstract private[cats] class FutureCoflatMap(implicit ec: ExecutionContext) exte
 }
 
 private[cats] class FutureSemigroup[A: Semigroup](implicit ec: ExecutionContext)
-    extends ApplySemigroup[Future, A](future.catsStdInstancesForFuture, implicitly)
+    extends ApplySemigroup[Future, A](FutureI.catsStdInstancesForFuture, implicitly)
 
 private[cats] class FutureMonoid[A](implicit A: Monoid[A], ec: ExecutionContext)
-    extends ApplicativeMonoid[Future, A](future.catsStdInstancesForFuture, implicitly)
+    extends ApplicativeMonoid[Future, A](FutureI.catsStdInstancesForFuture, implicitly)

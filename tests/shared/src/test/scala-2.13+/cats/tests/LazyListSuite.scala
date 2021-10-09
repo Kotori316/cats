@@ -108,7 +108,7 @@ class LazyListSuite extends CatsSuite {
 final class LazyListInstancesSuite extends munit.FunSuite {
 
   test("parallel instance in cats.instances.lazyList") {
-    import cats.instances.lazyList._
+    import cats.instances.LazyListI._
     import cats.syntax.parallel._
 
     (LazyList(1, 2, 3), LazyList("A", "B", "C")).parTupled

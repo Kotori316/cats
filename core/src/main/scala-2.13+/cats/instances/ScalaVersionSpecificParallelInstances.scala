@@ -31,7 +31,7 @@ trait ParallelInstances extends ParallelInstances1 {
 
   @deprecated("Use cats.instances.either.catsParallelForEitherAndValidated", "2.1.0")
   def catsParallelForEitherValidated[E: Semigroup]: Parallel.Aux[Either[E, *], Validated[E, *]] =
-    cats.instances.either.catsParallelForEitherAndValidated[E]
+    cats.instances.EitherI.catsParallelForEitherAndValidated[E]
 
   @deprecated("Use OptionT.catsDataParallelForOptionT", "2.0.0")
   def catsParallelForOptionTNestedOption[M[_]](implicit
@@ -40,19 +40,19 @@ trait ParallelInstances extends ParallelInstances1 {
 
   @deprecated("Use cats.instances.list.catsStdNonEmptyParallelForListZipList", "2.1.0")
   def catsStdNonEmptyParallelForZipList: NonEmptyParallel.Aux[List, ZipList] =
-    cats.instances.list.catsStdNonEmptyParallelForListZipList
+    cats.instances.ListI.catsStdNonEmptyParallelForListZipList
 
   @deprecated("Use cats.instances.vector.catsStdNonEmptyParallelForVectorZipVector", "2.1.0")
   def catsStdNonEmptyParallelForZipVector: NonEmptyParallel.Aux[Vector, ZipVector] =
-    cats.instances.vector.catsStdNonEmptyParallelForVectorZipVector
+    cats.instances.VectorI.catsStdNonEmptyParallelForVectorZipVector
 
   @deprecated("Use catsStdParallelForZipLazyList", "2.0.0-RC2")
   def catsStdParallelForZipStream: Parallel.Aux[Stream, ZipStream] =
-    cats.instances.stream.catsStdParallelForStreamZipStream
+    cats.instances.StreamI.catsStdParallelForStreamZipStream
 
   @deprecated("Use cats.instances.lazyList.catsStdParallelForLazyListZipLazyList", "2.1.0")
   def catsStdParallelForZipLazyList[A]: Parallel.Aux[LazyList, ZipLazyList] =
-    cats.instances.lazyList.catsStdParallelForLazyListZipLazyList[A]
+    cats.instances.LazyListI.catsStdParallelForLazyListZipLazyList[A]
 
   @deprecated("Use EitherT.catsDataParallelForEitherTWithParallelEffect", "2.0.0")
   def catsParallelForEitherTNestedParallelValidated[M[_], E: Semigroup](implicit

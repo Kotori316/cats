@@ -229,7 +229,7 @@ abstract private[cats] class TryCoflatMap extends CoflatMap[Try] {
   def coflatMap[A, B](ta: Try[A])(f: Try[A] => B): Try[B] = Try(f(ta))
 }
 
-private[cats] class TrySemigroup[A: Semigroup] extends ApplySemigroup[Try, A](try_.catsStdInstancesForTry, implicitly)
+private[cats] class TrySemigroup[A: Semigroup] extends ApplySemigroup[Try, A](TryI.catsStdInstancesForTry, implicitly)
 
 private[cats] class TryMonoid[A](implicit A: Monoid[A])
-    extends ApplicativeMonoid[Try, A](try_.catsStdInstancesForTry, implicitly)
+    extends ApplicativeMonoid[Try, A](TryI.catsStdInstancesForTry, implicitly)

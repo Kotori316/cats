@@ -48,6 +48,6 @@ trait PartialOrderingInstances {
             }
         }
 
-      def unit: PartialOrdering[Unit] = cats.instances.unit.catsKernelStdOrderForUnit.toOrdering
+      def unit: PartialOrdering[Unit] = cats.instances.UnitI.catsKernelStdOrderForUnit.toOrdering
     }
 }

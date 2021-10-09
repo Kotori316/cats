@@ -90,45 +90,45 @@ object Show extends ScalaVersionSpecificShowInstances with ShowInstances {
       show[B]((fa.show _).compose(f))
   }
 
-  implicit def catsShowForUnit: Show[Unit] = cats.instances.unit.catsStdShowForUnit
-  implicit def catsShowForBoolean: Show[Boolean] = cats.instances.boolean.catsStdShowForBoolean
-  implicit def catsShowForByte: Show[Byte] = cats.instances.byte.catsStdShowForByte
-  implicit def catsShowForShort: Show[Short] = cats.instances.short.catsStdShowForShort
-  implicit def catsShowForInt: Show[Int] = cats.instances.int.catsStdShowForInt
-  implicit def catsShowForLong: Show[Long] = cats.instances.long.catsStdShowForLong
-  implicit def catsShowForFloat: Show[Float] = cats.instances.float.catsStdShowForFloat
-  implicit def catsShowForDouble: Show[Double] = cats.instances.double.catsStdShowForDouble
-  implicit def catsShowForBigInt: Show[BigInt] = cats.instances.bigInt.catsStdShowForBigInt
-  implicit def catsShowForBigDecimal: Show[BigDecimal] = cats.instances.bigDecimal.catsStdShowForBigDecimal
-  implicit def catsShowForChar: Show[Char] = cats.instances.char.catsStdShowForChar
+  implicit def catsShowForUnit: Show[Unit] = cats.instances.UnitI.catsStdShowForUnit
+  implicit def catsShowForBoolean: Show[Boolean] = cats.instances.BooleanI.catsStdShowForBoolean
+  implicit def catsShowForByte: Show[Byte] = cats.instances.ByteI.catsStdShowForByte
+  implicit def catsShowForShort: Show[Short] = cats.instances.ShortI.catsStdShowForShort
+  implicit def catsShowForInt: Show[Int] = cats.instances.IntI.catsStdShowForInt
+  implicit def catsShowForLong: Show[Long] = cats.instances.LongI.catsStdShowForLong
+  implicit def catsShowForFloat: Show[Float] = cats.instances.FloatI.catsStdShowForFloat
+  implicit def catsShowForDouble: Show[Double] = cats.instances.DoubleI.catsStdShowForDouble
+  implicit def catsShowForBigInt: Show[BigInt] = cats.instances.BigIntI.catsStdShowForBigInt
+  implicit def catsShowForBigDecimal: Show[BigDecimal] = cats.instances.BigDecimalI.catsStdShowForBigDecimal
+  implicit def catsShowForChar: Show[Char] = cats.instances.CharI.catsStdShowForChar
   implicit def catsShowForSymbol: Show[Symbol] = cats.instances.symbol.catsStdShowForSymbol
-  implicit def catsShowForString: Show[String] = cats.instances.string.catsStdShowForString
-  implicit def catsShowForUUID: Show[UUID] = cats.instances.uuid.catsStdShowForUUID
-  implicit def catsShowForDuration: Show[Duration] = cats.instances.duration.catsStdShowForDurationUnambiguous
-  implicit def catsShowForBitSet: Show[BitSet] = cats.instances.bitSet.catsStdShowForBitSet
+  implicit def catsShowForString: Show[String] = cats.instances.StringI.catsStdShowForString
+  implicit def catsShowForUUID: Show[UUID] = cats.instances.UuidI.catsStdShowForUUID
+  implicit def catsShowForDuration: Show[Duration] = cats.instances.DurationI.catsStdShowForDurationUnambiguous
+  implicit def catsShowForBitSet: Show[BitSet] = cats.instances.BitSetI.catsStdShowForBitSet
 
-  implicit def catsShowForOption[A: Show]: Show[Option[A]] = cats.instances.option.catsStdShowForOption[A]
-  implicit def catsShowForTry[A: Show]: Show[Try[A]] = cats.instances.try_.catsStdShowForTry[A]
-  implicit def catsShowForList[A: Show]: Show[List[A]] = cats.instances.list.catsStdShowForList[A]
-  implicit def catsShowForVector[A: Show]: Show[Vector[A]] = cats.instances.vector.catsStdShowForVector[A]
-  implicit def catsShowForQueue[A: Show]: Show[Queue[A]] = cats.instances.queue.catsStdShowForQueue[A]
+  implicit def catsShowForOption[A: Show]: Show[Option[A]] = cats.instances.OptionI.catsStdShowForOption[A]
+  implicit def catsShowForTry[A: Show]: Show[Try[A]] = cats.instances.TryI.catsStdShowForTry[A]
+  implicit def catsShowForList[A: Show]: Show[List[A]] = cats.instances.ListI.catsStdShowForList[A]
+  implicit def catsShowForVector[A: Show]: Show[Vector[A]] = cats.instances.VectorI.catsStdShowForVector[A]
+  implicit def catsShowForQueue[A: Show]: Show[Queue[A]] = cats.instances.QueueI.catsStdShowForQueue[A]
   implicit def catsShowForEither[A: Show, B: Show]: Show[Either[A, B]] =
-    cats.instances.either.catsStdShowForEither[A, B]
-  implicit def catsShowForSet[A: Show]: Show[Set[A]] = cats.instances.set.catsStdShowForSet[A]
-  implicit def catsShowForMap[K: Show, V: Show]: Show[Map[K, V]] = cats.instances.map.catsStdShowForMap[K, V]
-  implicit def catsShowForSortedSet[A: Show]: Show[SortedSet[A]] = cats.instances.sortedSet.catsStdShowForSortedSet[A]
+    cats.instances.EitherI.catsStdShowForEither[A, B]
+  implicit def catsShowForSet[A: Show]: Show[Set[A]] = cats.instances.SetI.catsStdShowForSet[A]
+  implicit def catsShowForMap[K: Show, V: Show]: Show[Map[K, V]] = cats.instances.MapI.catsStdShowForMap[K, V]
+  implicit def catsShowForSortedSet[A: Show]: Show[SortedSet[A]] = cats.instances.SortedSetI.catsStdShowForSortedSet[A]
   implicit def catsShowForSortedMap[K: Show, V: Show]: Show[SortedMap[K, V]] =
-    cats.instances.sortedMap.catsStdShowForSortedMap[K, V]
+    cats.instances.SortedMapI.catsStdShowForSortedMap[K, V]
 
   @deprecated("Use catsStdShowForTuple2 in cats.instances.NTupleShowInstances", "2.4.0")
-  def catsShowForTuple2[A: Show, B: Show]: Show[(A, B)] = cats.instances.tuple.catsStdShowForTuple2[A, B]
+  def catsShowForTuple2[A: Show, B: Show]: Show[(A, B)] = cats.instances.TupleI.catsStdShowForTuple2[A, B]
 }
 
 private[cats] trait ShowInstances extends cats.instances.NTupleShowInstances with ShowInstances0 {
   implicit def catsShowForFiniteDuration: Show[FiniteDuration] =
-    cats.instances.finiteDuration.catsStdShowForFiniteDurationUnambiguous
+    cats.instances.FiniteDurationI.catsStdShowForFiniteDurationUnambiguous
 }
 
 private[cats] trait ShowInstances0 {
-  implicit def catsShowForSeq[A: Show]: Show[Seq[A]] = cats.instances.seq.catsStdShowForSeq[A]
+  implicit def catsShowForSeq[A: Show]: Show[Seq[A]] = cats.instances.SeqI.catsStdShowForSeq[A]
 }

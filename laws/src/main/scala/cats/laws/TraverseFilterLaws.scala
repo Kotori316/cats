@@ -24,7 +24,7 @@ package laws
 
 import cats.data.Nested
 import cats.syntax.all._
-import cats.instances.option._
+import cats.instances.OptionI._
 
 trait TraverseFilterLaws[F[_]] extends FunctorFilterLaws[F] {
   implicit override def F: TraverseFilter[F]

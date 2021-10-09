@@ -23,23 +23,23 @@ package cats
 
 package object instances {
   object all extends AllInstancesBinCompat
-  object arraySeq extends ArraySeqInstances
-  object bigInt extends BigIntInstances
-  object bigDecimal extends BigDecimalInstances
-  object bitSet extends BitSetInstances
-  object boolean extends BooleanInstances
-  object byte extends ByteInstances
-  object char extends CharInstances
-  object double extends DoubleInstances
-  object duration extends CoreDurationInstances with DurationInstances
-  object either extends EitherInstances
-  object eq extends EqInstances
-  object equiv extends EquivInstances
-  object float extends FloatInstances
-  object finiteDuration extends CoreFiniteDurationInstances with FiniteDurationInstances
-  object deadline extends DeadlineInstances
-  object function extends FunctionInstances with FunctionInstancesBinCompat0
-  object partialFunction extends PartialFunctionInstances
+  object ArraySeqI extends ArraySeqInstances
+  object BigIntI extends BigIntInstances
+  object BigDecimalI extends BigDecimalInstances
+  object BitSetI extends BitSetInstances
+  object BooleanI extends BooleanInstances
+  object ByteI extends ByteInstances
+  object CharI extends CharInstances
+  object DoubleI extends DoubleInstances
+  object DurationI extends CoreDurationInstances with DurationInstances
+  object EitherI extends EitherInstances
+  object EqI extends EqInstances
+  object EquivI extends EquivInstances
+  object FloatI extends FloatInstances
+  object FiniteDurationI extends CoreFiniteDurationInstances with FiniteDurationInstances
+  object DeadlineI extends DeadlineInstances
+  object FunctionI extends FunctionInstances with FunctionInstancesBinCompat0
+  object PartialFunctionI extends PartialFunctionInstances
 
   /**
    * @deprecated
@@ -50,38 +50,38 @@ package object instances {
    *
    * @see [[https://github.com/typelevel/cats/issues/4176 Changes in Future traverse behavior between 2.6 and 2.7]]
    */
-  object future extends FutureInstances
+  object FutureI extends FutureInstances
 
-  object int extends IntInstances
-  object invariant extends InvariantMonoidalInstances with InvariantInstances with InvariantInstancesBinCompat0
-  object list extends ListInstances with ListInstancesBinCompat0
-  object long extends LongInstances
-  object option extends OptionInstances with OptionInstancesBinCompat0
-  object map extends MapInstances with MapInstancesBinCompat0 with MapInstancesBinCompat1
-  object order extends OrderInstances
-  object ordering extends OrderingInstances
-  object parallel extends ParallelInstances
-  object partialOrder extends PartialOrderInstances
-  object partialOrdering extends PartialOrderingInstances
-  object queue extends QueueInstances
-  object set extends SetInstances
-  object seq extends SeqInstances
-  object short extends ShortInstances
-  object sortedMap
+  object IntI extends IntInstances
+  object InvariantI extends InvariantMonoidalInstances with InvariantInstances with InvariantInstancesBinCompat0
+  object ListI extends ListInstances with ListInstancesBinCompat0
+  object LongI extends LongInstances
+  object OptionI extends OptionInstances with OptionInstancesBinCompat0
+  object MapI extends MapInstances with MapInstancesBinCompat0 with MapInstancesBinCompat1
+  object OrderI extends OrderInstances
+  object OrderingI extends OrderingInstances
+  object ParallelI extends ParallelInstances
+  object PartialOrderI extends PartialOrderInstances
+  object PartialOrderingI extends PartialOrderingInstances
+  object QueueI extends QueueInstances
+  object SetI extends SetInstances
+  object SeqI extends SeqInstances
+  object ShortI extends ShortInstances
+  object SortedMapI
       extends SortedMapInstances
       with SortedMapInstancesBinCompat0
       with SortedMapInstancesBinCompat1
       with SortedMapInstancesBinCompat2
-  object sortedSet extends SortedSetInstances with SortedSetInstancesBinCompat0 with SortedSetInstancesBinCompat1
+  object SortedSetI extends SortedSetInstances with SortedSetInstancesBinCompat0 with SortedSetInstancesBinCompat1
 
   @deprecated("Use cats.instances.lazyList", "2.0.0-RC2")
-  object stream extends StreamInstances with StreamInstancesBinCompat0
-  object lazyList extends LazyListInstances
-  object string extends StringInstances
-  object tailRec extends TailRecInstances
-  object try_ extends TryInstances
-  object tuple extends TupleInstances with Tuple2InstancesBinCompat0
-  object unit extends UnitInstances
-  object uuid extends UUIDInstances
-  object vector extends VectorInstances with VectorInstancesBinCompat0
+  object StreamI extends StreamInstances with StreamInstancesBinCompat0
+  object LazyListI extends LazyListInstances
+  object StringI extends StringInstances
+  object TailRecI extends TailRecInstances
+  object TryI extends TryInstances
+  object TupleI extends TupleInstances with Tuple2InstancesBinCompat0
+  object UnitI extends UnitInstances
+  object UuidI extends UUIDInstances
+  object VectorI extends VectorInstances with VectorInstancesBinCompat0
 }

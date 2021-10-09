@@ -245,7 +245,7 @@ trait EitherInstances extends cats.kernel.instances.EitherInstances {
       type F[x] = Validated[E, x]
 
       def applicative: Applicative[Validated[E, *]] = Validated.catsDataApplicativeErrorForValidated
-      def monad: Monad[Either[E, *]] = cats.instances.either.catsStdInstancesForEither
+      def monad: Monad[Either[E, *]] = cats.instances.EitherI.catsStdInstancesForEither
 
       def sequential: Validated[E, *] ~> Either[E, *] =
         new (Validated[E, *] ~> Either[E, *]) { def apply[A](a: Validated[E, A]): Either[E, A] = a.toEither }

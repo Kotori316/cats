@@ -207,7 +207,7 @@ trait QueueInstances extends cats.kernel.instances.QueueInstances {
 @suppressUnusedImportWarningForScalaVersionSpecific
 private object QueueInstances {
   private val catsStdTraverseFilterForQueue: TraverseFilter[Queue] = new TraverseFilter[Queue] {
-    val traverse: Traverse[Queue] = cats.instances.queue.catsStdInstancesForQueue
+    val traverse: Traverse[Queue] = cats.instances.QueueI.catsStdInstancesForQueue
 
     override def mapFilter[A, B](fa: Queue[A])(f: (A) => Option[B]): Queue[B] =
       fa.collect(Function.unlift(f))

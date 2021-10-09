@@ -23,7 +23,7 @@ package cats
 package laws
 package discipline
 
-import cats.instances.eq._
+import cats.instances.EqI._
 
 import cats.laws.discipline.SemigroupalTests.Isomorphisms
 import org.scalacheck.{Arbitrary, Cogen, Prop}

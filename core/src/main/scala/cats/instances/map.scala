@@ -160,7 +160,7 @@ private[instances] trait MapInstancesBinCompat0 {
   implicit def catsStdFunctorFilterForMap[K]: FunctorFilter[Map[K, *]] =
     new FunctorFilter[Map[K, *]] {
 
-      val functor: Functor[Map[K, *]] = cats.instances.map.catsStdInstancesForMap[K]
+      val functor: Functor[Map[K, *]] = cats.instances.MapI.catsStdInstancesForMap[K]
 
       def mapFilter[A, B](fa: Map[K, A])(f: A => Option[B]) =
         fa.collect(scala.Function.unlift((t: (K, A)) => f(t._2).map(t._1 -> _)))

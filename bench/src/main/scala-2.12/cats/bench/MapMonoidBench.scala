@@ -21,9 +21,9 @@
 
 package cats.bench
 
-import cats.instances.list._
-import cats.instances.int._
-import cats.instances.map._
+import cats.instances.ListI._
+import cats.instances.IntI._
+import cats.instances.MapI._
 
 import scalaz.std.anyVal._
 import scalaz.std.list._

@@ -24,7 +24,7 @@ package laws
 package discipline
 
 import cats.arrow.ArrowChoice
-import cats.instances.function._
+import cats.instances.FunctionI._
 import org.scalacheck.{Arbitrary, Cogen, Prop}
 import Prop._
 

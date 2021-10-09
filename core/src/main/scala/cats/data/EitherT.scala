@@ -1011,7 +1011,7 @@ abstract private[data] class EitherTInstances extends EitherTInstances1 {
       type F[x] = Nested[P.F, Validated[E, *], x]
 
       implicit val monadM: Monad[M] = P.monad
-      implicit val monadEither: Monad[Either[E, *]] = cats.instances.either.catsStdInstancesForEither
+      implicit val monadEither: Monad[Either[E, *]] = cats.instances.EitherI.catsStdInstancesForEither
 
       def applicative: Applicative[Nested[P.F, Validated[E, *], *]] =
         cats.data.Nested.catsDataApplicativeForNested(P.applicative, Validated.catsDataApplicativeErrorForValidated)
@@ -1042,7 +1042,7 @@ abstract private[data] class EitherTInstances extends EitherTInstances1 {
       type F[x] = Nested[P.F, Either[E, *], x]
 
       implicit val monadM: Monad[M] = P.monad
-      implicit val monadEither: Monad[Either[E, *]] = cats.instances.either.catsStdInstancesForEither
+      implicit val monadEither: Monad[Either[E, *]] = cats.instances.EitherI.catsStdInstancesForEither
 
       def applicative: Applicative[Nested[P.F, Either[E, *], *]] =
         cats.data.Nested.catsDataApplicativeForNested(P.applicative, implicitly)
@@ -1107,7 +1107,7 @@ abstract private[data] class EitherTInstances1 extends EitherTInstances2 {
       type F[x] = Nested[M, Validated[E, *], x]
 
       implicit val appValidated: Applicative[Validated[E, *]] = Validated.catsDataApplicativeErrorForValidated
-      implicit val monadEither: Monad[Either[E, *]] = cats.instances.either.catsStdInstancesForEither
+      implicit val monadEither: Monad[Either[E, *]] = cats.instances.EitherI.catsStdInstancesForEither
 
       def applicative: Applicative[Nested[M, Validated[E, *], *]] =
         cats.data.Nested.catsDataApplicativeForNested[M, Validated[E, *]]
@@ -1137,7 +1137,7 @@ abstract private[data] class EitherTInstances2 extends EitherTInstances3 {
    * {{{
    * scala> import cats.data.EitherT
    * scala> import cats.MonadError
-   * scala> import cats.instances.option._
+   * scala> import cats.instances.OptionI._
    * scala> val noInt: Option[Either[String, Int]] = None
    * scala> val et = EitherT[Option, String, Int](noInt)
    * scala> val me = MonadError[EitherT[Option, String, *], Unit]

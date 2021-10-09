@@ -281,7 +281,7 @@ trait ApplicativeError[F[_], E] extends Applicative[F] {
    * Example:
    * {{{
    * scala> import cats.ApplicativeError
-   * scala> import cats.instances.option._
+   * scala> import cats.instances.OptionI._
    *
    * scala> ApplicativeError[Option, Unit].fromEither(Right(1))
    * res0: scala.Option[Int] = Some(1)

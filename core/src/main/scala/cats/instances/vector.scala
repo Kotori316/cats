@@ -231,7 +231,7 @@ trait VectorInstances extends cats.kernel.instances.VectorInstances {
     new NonEmptyParallel[Vector] {
       type F[x] = ZipVector[x]
 
-      def flatMap: FlatMap[Vector] = cats.instances.vector.catsStdInstancesForVector
+      def flatMap: FlatMap[Vector] = cats.instances.VectorI.catsStdInstancesForVector
       def apply: Apply[ZipVector] = ZipVector.catsDataCommutativeApplyForZipVector
 
       def sequential: ZipVector ~> Vector =
@@ -245,7 +245,7 @@ trait VectorInstances extends cats.kernel.instances.VectorInstances {
 @suppressUnusedImportWarningForScalaVersionSpecific
 private[instances] trait VectorInstancesBinCompat0 {
   implicit val catsStdTraverseFilterForVector: TraverseFilter[Vector] = new TraverseFilter[Vector] {
-    val traverse: Traverse[Vector] = cats.instances.vector.catsStdInstancesForVector
+    val traverse: Traverse[Vector] = cats.instances.VectorI.catsStdInstancesForVector
 
     override def mapFilter[A, B](fa: Vector[A])(f: (A) => Option[B]): Vector[B] =
       fa.collect(Function.unlift(f))

@@ -202,7 +202,7 @@ trait StreamInstances extends cats.kernel.instances.StreamInstances {
     new Parallel[Stream] {
       type F[x] = ZipStream[x]
 
-      def monad: Monad[Stream] = cats.instances.stream.catsStdInstancesForStream
+      def monad: Monad[Stream] = cats.instances.StreamI.catsStdInstancesForStream
       def applicative: Applicative[ZipStream] = ZipStream.catsDataAlternativeForZipStream
 
       def sequential: ZipStream ~> Stream =
@@ -215,7 +215,7 @@ trait StreamInstances extends cats.kernel.instances.StreamInstances {
 
 private[instances] trait StreamInstancesBinCompat0 {
   implicit val catsStdTraverseFilterForStream: TraverseFilter[Stream] = new TraverseFilter[Stream] {
-    val traverse: Traverse[Stream] = cats.instances.stream.catsStdInstancesForStream
+    val traverse: Traverse[Stream] = cats.instances.StreamI.catsStdInstancesForStream
 
     override def mapFilter[A, B](fa: Stream[A])(f: (A) => Option[B]): Stream[B] =
       fa.collect(Function.unlift(f))

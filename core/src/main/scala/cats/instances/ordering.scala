@@ -22,7 +22,7 @@
 package cats
 package instances
 
-import cats.kernel.instances.unit._
+import cats.kernel.instances.all._
 
 trait OrderingInstances {
   implicit val catsContravariantMonoidalForOrdering: ContravariantMonoidal[Ordering] =

@@ -23,7 +23,7 @@ package cats.laws
 
 import java.util.concurrent.atomic.AtomicLong
 
-import cats.instances.option._
+import cats.instances.OptionI._
 import cats.syntax.foldable._
 import cats.syntax.traverse._
 import cats.syntax.nonEmptyTraverse._

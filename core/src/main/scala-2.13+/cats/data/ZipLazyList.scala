@@ -44,7 +44,7 @@ object ZipLazyList {
       def empty[A]: ZipLazyList[A] = ZipLazyList(LazyList.empty[A])
 
       def combineK[A](x: ZipLazyList[A], y: ZipLazyList[A]): ZipLazyList[A] =
-        ZipLazyList(cats.instances.lazyList.catsStdInstancesForLazyList.combineK(x.value, y.value))
+        ZipLazyList(cats.instances.LazyListI.catsStdInstancesForLazyList.combineK(x.value, y.value))
     }
 
   implicit def catsDataEqForZipLazyList[A: Eq]: Eq[ZipLazyList[A]] =

@@ -24,7 +24,7 @@ package data
 
 import NonEmptyLazyList.create
 import kernel.PartialOrder
-import instances.lazyList._
+import instances.LazyListI._
 
 import scala.collection.immutable.{SortedMap, TreeMap, TreeSet}
 import scala.collection.mutable
@@ -364,7 +364,7 @@ class NonEmptyLazyListOps[A](private val value: NonEmptyLazyList[A])
    *
    * {{{
    * scala> import cats.data.NonEmptyLazyList
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyLazyList(('a', 4), ('z', 1), ('e', 22))
    * scala> nel.sortBy(_._2).toLazyList.toList
    * res0: List[(Char, Int)] = List((z,1), (a,4), (e,22))
@@ -379,7 +379,7 @@ class NonEmptyLazyListOps[A](private val value: NonEmptyLazyList[A])
    *
    * {{{
    * scala> import cats.data.NonEmptyLazyList
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyLazyList(12, 4, 3, 9)
    * scala> nel.sorted.toLazyList.toList
    * res0: List[Int] = List(3, 4, 9, 12)
@@ -478,7 +478,7 @@ class NonEmptyLazyListOps[A](private val value: NonEmptyLazyList[A])
    * Creates new `NonEmptySet`, similarly to List#toSet from scala standard library.
    * {{{
    * scala> import cats.data._
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyLazyList.fromLazyListPrepend(1, LazyList(2,2,3,4))
    * scala> nel.toNes
    * res0: cats.data.NonEmptySet[Int] = TreeSet(1, 2, 3, 4)
@@ -491,7 +491,7 @@ class NonEmptyLazyListOps[A](private val value: NonEmptyLazyList[A])
    * Creates new `NonEmptyVector`, similarly to List#toVector from scala standard library.
    * {{{
    * scala> import cats.data._
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyLazyList.fromLazyListPrepend(1, LazyList(2,3,4))
    * scala> val expectedResult = NonEmptyVector.fromVectorUnsafe(Vector(1,2,3,4))
    * scala> val result = nel.toNev

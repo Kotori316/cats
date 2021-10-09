@@ -57,11 +57,11 @@ trait Compose[F[_, _]] extends Serializable { self =>
 
 object Compose {
   implicit def catsInstancesForFunction1: ArrowChoice[Function1] with CommutativeArrow[Function1] =
-    cats.instances.function.catsStdInstancesForFunction1
-  implicit def catsComposeForMap: Compose[Map] = cats.instances.map.catsStdComposeForMap
+    cats.instances.FunctionI.catsStdInstancesForFunction1
+  implicit def catsComposeForMap: Compose[Map] = cats.instances.MapI.catsStdComposeForMap
 
   implicit def catsInstancesForPartialFunction: ArrowChoice[PartialFunction] with CommutativeArrow[PartialFunction] =
-    cats.instances.partialFunction.catsStdInstancesForPartialFunction
+    cats.instances.PartialFunctionI.catsStdInstancesForPartialFunction
 
   /**
    * Summon an instance of [[Compose]] for `F`.

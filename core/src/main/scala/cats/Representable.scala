@@ -191,9 +191,9 @@ object Representable {
     }
 
   implicit def catsRepresentableForFunction1[E](implicit EF: Functor[E => *]): Representable.Aux[E => *, E] =
-    cats.instances.function.catsStdRepresentableForFunction1[E]
+    cats.instances.FunctionI.catsStdRepresentableForFunction1[E]
 
   implicit def catsRepresentableForPair(implicit
     PF: Functor[λ[P => (P, P)]]
-  ): Representable.Aux[λ[P => (P, P)], Boolean] = cats.instances.tuple.catsDataRepresentableForPair
+  ): Representable.Aux[λ[P => (P, P)], Boolean] = cats.instances.TupleI.catsDataRepresentableForPair
 }

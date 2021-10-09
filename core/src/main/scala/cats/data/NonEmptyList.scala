@@ -384,7 +384,7 @@ final case class NonEmptyList[+A](head: A, tail: List[A]) extends NonEmptyCollec
    *
    * {{{
    * scala> import cats.data.NonEmptyList
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyList.of(('a', 4), ('z', 1), ('e', 22))
    * scala> nel.sortBy(_._2)
    * res0: cats.data.NonEmptyList[(Char, Int)] = NonEmptyList((z,1), (a,4), (e,22))
@@ -399,7 +399,7 @@ final case class NonEmptyList[+A](head: A, tail: List[A]) extends NonEmptyCollec
    *
    * {{{
    * scala> import cats.data.NonEmptyList
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyList.of(12, 4, 3, 9)
    * scala> nel.sorted
    * res0: cats.data.NonEmptyList[Int] = NonEmptyList(3, 4, 9, 12)
@@ -636,7 +636,7 @@ final case class NonEmptyList[+A](head: A, tail: List[A]) extends NonEmptyCollec
    * Creates new `NonEmptySet`, similarly to List#toSet from scala standard library.
    * {{{
    * scala> import cats.data._
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyList(1, List(2,2,3,4))
    * scala> nel.toNes
    * res0: cats.data.NonEmptySet[Int] = TreeSet(1, 2, 3, 4)
@@ -649,7 +649,7 @@ final case class NonEmptyList[+A](head: A, tail: List[A]) extends NonEmptyCollec
    * Creates new `NonEmptyVector`, similarly to List#toVector from scala standard library.
    * {{{
    * scala> import cats.data._
-   * scala> import cats.instances.int._
+   * scala> import cats.instances.IntI._
    * scala> val nel = NonEmptyList(1, List(2,3,4))
    * scala> val expectedResult = NonEmptyVector.fromVectorUnsafe(Vector(1,2,3,4))
    * scala> val result = nel.toNev

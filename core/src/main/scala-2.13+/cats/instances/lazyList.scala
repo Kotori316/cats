@@ -216,7 +216,7 @@ trait LazyListInstances extends cats.kernel.instances.LazyListInstances {
     new Parallel[LazyList] {
       type F[x] = ZipLazyList[x]
 
-      def monad: Monad[LazyList] = cats.instances.lazyList.catsStdInstancesForLazyList
+      def monad: Monad[LazyList] = cats.instances.LazyListI.catsStdInstancesForLazyList
       def applicative: Applicative[ZipLazyList] = ZipLazyList.catsDataAlternativeForZipLazyList
 
       def sequential: ZipLazyList ~> LazyList =

@@ -64,7 +64,7 @@ trait Profunctor[F[_, _]] extends Serializable { self =>
    * Example:
    * {{{
    * scala> import cats.syntax.profunctor._
-   * scala> import cats.instances.function._
+   * scala> import cats.instances.FunctionI._
    * scala>
    * scala> sealed trait Foo
    * scala> case object Bar extends Foo
@@ -79,7 +79,7 @@ trait Profunctor[F[_, _]] extends Serializable { self =>
    * Example:
    * {{{
    * scala> import cats.syntax.profunctor._
-   * scala> import cats.instances.function._
+   * scala> import cats.instances.FunctionI._
    * scala>
    * scala> sealed trait Foo
    * scala> case object Bar extends Foo
@@ -92,10 +92,10 @@ trait Profunctor[F[_, _]] extends Serializable { self =>
 
 object Profunctor {
   implicit def catsStrongForFunction1: Strong[Function1] =
-    cats.instances.function.catsStdInstancesForFunction1
+    cats.instances.FunctionI.catsStdInstancesForFunction1
 
   implicit def catsStrongForPartialFunction: Strong[PartialFunction] =
-    cats.instances.partialFunction.catsStdInstancesForPartialFunction
+    cats.instances.PartialFunctionI.catsStdInstancesForPartialFunction
 
   /**
    * Summon an instance of [[Profunctor]] for `F`.
