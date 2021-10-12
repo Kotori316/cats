@@ -499,7 +499,7 @@ lazy val sharedPublishSettings = Seq(
   publishTo := {
     Some("mods".at("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1"))
   },
-  credentials += Credentials(Path.userHome / ".sbt" / "sbt.credentials")
+  credentials += Credentials(Path.userHome / ".sbt" / "sbt.properties")
 )
 
 lazy val docs = project

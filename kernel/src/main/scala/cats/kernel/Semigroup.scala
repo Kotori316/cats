@@ -40,8 +40,6 @@ trait Semigroup[@sp(Int, Long, Float, Double) A] extends Any with Serializable {
    * Example:
    * {{{
    * scala> import cats.kernel.instances.all._
-   * scala> import cats.kernel.instances.all._
-   * scala> import cats.kernel.instances.all._
    *
    * scala> Semigroup[String].combine("Hello ", "World!")
    * res0: String = Hello World!
@@ -57,7 +55,6 @@ trait Semigroup[@sp(Int, Long, Float, Double) A] extends Any with Serializable {
    *
    * Example:
    * {{{
-   * scala> import cats.kernel.instances.all._
    * scala> import cats.kernel.instances.all._
    *
    * scala> Semigroup[Int].combineN(1, 10)

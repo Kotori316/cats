@@ -38,7 +38,6 @@ trait Monoid[@sp(Int, Long, Float, Double) A] extends Any with Semigroup[A] { se
    * Example:
    * {{{
    * scala> import cats.kernel.instances.all._
-   * scala> import cats.kernel.instances.all._
    *
    * scala> Monoid[String].empty
    * res0: String = ""
