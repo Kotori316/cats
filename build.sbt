@@ -497,8 +497,9 @@ lazy val sharedPublishSettings = Seq(
   Test / publishArtifact := false,
   pomIncludeRepository := Function.const(false),
   publishTo := {
-    Some(MavenCache("local-maven", file("build/")))
-  }
+    Some("mods".at("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1"))
+  },
+  credentials += Credentials(Path.userHome / ".sbt" / "sbt.credentials")
 )
 
 lazy val docs = project
