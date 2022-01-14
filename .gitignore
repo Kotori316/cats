@@ -24,6 +24,7 @@ metals.sbt
 *.sublime-project
 *.sublime-workspace
 tests.iml
+null/
 # Auto-copied by sbt-microsites
 docs/src/main/tut/contributing.md
 docs/src/main/tut/index.md
