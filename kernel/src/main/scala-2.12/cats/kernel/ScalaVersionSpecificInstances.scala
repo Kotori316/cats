@@ -23,24 +23,24 @@ package cats.kernel
 
 private[kernel] trait ScalaVersionSpecificOrderInstances extends ScalaVersionSpecificPartialOrderInstances {
   implicit def catsKernelOrderForStream[A: Order]: Order[Stream[A]] =
-    cats.kernel.instances.stream.catsKernelStdOrderForStream[A]
+    cats.kernel.instances.all.catsKernelStdOrderForStream[A]
 }
 
 private[kernel] trait ScalaVersionSpecificPartialOrderInstances extends ScalaVersionSpecificHashInstances {
   implicit def catsKernelPartialOrderForStream[A: PartialOrder]: PartialOrder[Stream[A]] =
-    cats.kernel.instances.stream.catsKernelStdPartialOrderForStream[A]
+    cats.kernel.instances.all.catsKernelStdPartialOrderForStream[A]
 }
 
 private[kernel] trait ScalaVersionSpecificHashInstances extends ScalaVersionSpecificEqInstances {
   implicit def catsKernelHashForStream[A: Hash]: Hash[Stream[A]] =
-    cats.kernel.instances.stream.catsKernelStdHashForStream[A]
+    cats.kernel.instances.all.catsKernelStdHashForStream[A]
 }
 
 private[kernel] trait ScalaVersionSpecificEqInstances {
-  implicit def catsKernelEqForStream[A: Eq]: Eq[Stream[A]] = cats.kernel.instances.stream.catsKernelStdEqForStream[A]
+  implicit def catsKernelEqForStream[A: Eq]: Eq[Stream[A]] = cats.kernel.instances.all.catsKernelStdEqForStream[A]
 }
 
 private[kernel] trait ScalaVersionSpecificMonoidInstances {
   implicit def catsKernelMonoidForStream[A]: Monoid[Stream[A]] =
-    cats.kernel.instances.stream.catsKernelStdMonoidForStream[A]
+    cats.kernel.instances.all.catsKernelStdMonoidForStream[A]
 }

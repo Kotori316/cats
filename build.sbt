@@ -1,4 +1,5 @@
 ThisBuild / tlBaseVersion := "2.9"
+ThisBuild / version := "2.8.2-kotori"
 
 val scalaCheckVersion = "1.16.0"
 
@@ -21,7 +22,7 @@ val Scala213 = "2.13.8"
 val Scala3 = "3.1.2"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala3)
-ThisBuild / scalaVersion := Scala212
+ThisBuild / scalaVersion := Scala213
 
 ThisBuild / tlFatalWarnings := false
 ThisBuild / tlFatalWarningsInCi := false
@@ -60,6 +61,16 @@ lazy val commonJvmSettings = Seq(
   Test / fork := true,
   Test / javaOptions := Seq("-Xmx3G"),
   doctestGenTests := { if (tlIsScala3.value) Nil else doctestGenTests.value }
+) ++ sharedPublishSettings
+
+lazy val sharedPublishSettings = Seq(
+  publishMavenStyle := true,
+  Test / publishArtifact := false,
+  pomIncludeRepository := Function.const(false),
+  publishTo := {
+    Some("mods".at("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1"))
+  },
+  credentials += Credentials(Path.userHome / ".sbt" / "sbt.properties")
 )
 
 lazy val commonJsSettings = Seq(
