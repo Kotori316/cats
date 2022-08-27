@@ -97,6 +97,8 @@ final class NonEmptySeq[+A] private (val toSeq: Seq[A]) extends AnyVal with NonE
 
   def collect[B](pf: PartialFunction[A, B]): Seq[B] = toSeq.collect(pf)
 
+  def collectFirst[B](pf: PartialFunction[A, B]): Option[B] = toSeq.collectFirst(pf)
+
   /**
    * Alias for [[concat]]
    */
@@ -118,6 +120,11 @@ final class NonEmptySeq[+A] private (val toSeq: Seq[A]) extends AnyVal with NonE
    * Append another `Seq` to this, producing a new `NonEmptySeq`.
    */
   def concat[AA >: A](other: Seq[AA]): NonEmptySeq[AA] = new NonEmptySeq(toSeq ++ other)
+
+  /**
+   * Append another `Seq` to this, producing a new `NonEmptySeq`.
+   */
+  def appendSeq[AA >: A](other: Seq[AA]): NonEmptySeq[AA] = concat(other)
 
   /**
    * Append another `NonEmptySeq` to this, producing a new `NonEmptySeq`.

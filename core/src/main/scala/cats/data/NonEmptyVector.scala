@@ -100,6 +100,8 @@ final class NonEmptyVector[+A] private (val toVector: Vector[A])
 
   def collect[B](pf: PartialFunction[A, B]): Vector[B] = toVector.collect(pf)
 
+  def collectFirst[B](pf: PartialFunction[A, B]): Option[B] = toVector.collectFirst(pf)
+
   /**
    * Alias for [[concat]]
    */
@@ -121,6 +123,18 @@ final class NonEmptyVector[+A] private (val toVector: Vector[A])
    * Append another `Vector` to this, producing a new `NonEmptyVector`.
    */
   def concat[AA >: A](other: Vector[AA]): NonEmptyVector[AA] = new NonEmptyVector(toVector ++ other)
+
+  /**
+   * Append another `Vector` to this, producing a new `NonEmptyVector`
+   * 
+   * {{{
+   * scala> import cats.data.NonEmptyVector
+   * scala> val nev = NonEmptyVector.of(1, 2, 3)
+   * scala> nev.appendVector(Vector(4, 5))
+   * res0: cats.data.NonEmptyVector[Int] = NonEmptyVector(1, 2, 3, 4, 5)
+   * }}}
+   */
+  def appendVector[AA >: A](other: Vector[AA]): NonEmptyVector[AA] = concat(other)
 
   /**
    * Append another `NonEmptyVector` to this, producing a new `NonEmptyVector`.
