@@ -19,7 +19,7 @@ ThisBuild / githubWorkflowJavaVersions := Seq(PrimaryJava, LTSJava, GraalVM11)
 
 val Scala212 = "2.12.17"
 val Scala213 = "2.13.10"
-val Scala3 = "3.1.3"
+val Scala3 = "3.2.0"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala3)
 ThisBuild / scalaVersion := Scala213
@@ -260,10 +260,15 @@ lazy val unidocs = project
   .settings(
     name := "cats-docs",
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(kernel.jvm,
+                                                             kernelLaws.jvm,
                                                              core.jvm,
+                                                             laws.jvm,
                                                              free.jvm,
                                                              algebra.jvm,
-                                                             alleycatsCore.jvm
+                                                             algebraLaws.jvm,
+                                                             alleycatsCore.jvm,
+                                                             alleycatsLaws.jvm,
+                                                             testkit.jvm
     ),
     scalacOptions ~= { _.filterNot(_.startsWith("-W")) }, // weird nsc bug
     ScalaUnidoc / unidoc / scalacOptions ++= Seq("-groups", "-diagrams")
