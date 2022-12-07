@@ -1,5 +1,5 @@
-ThisBuild / tlBaseVersion := "2.9"
-ThisBuild / version := "2.8.5-kotori"
+ThisBuild / tlBaseVersion := "2.10"
+ThisBuild / version := "2.9.0-kotori"
 
 val scalaCheckVersion = "1.17.0"
 
@@ -7,7 +7,7 @@ val disciplineVersion = "1.5.1"
 
 val disciplineMunitVersion = "2.0.0-M3"
 
-val munitVersion = "1.0.0-M6"
+val munitVersion = "1.0.0-M7"
 
 val kindProjectorVersion = "0.13.2"
 
@@ -19,7 +19,7 @@ ThisBuild / githubWorkflowJavaVersions := Seq(PrimaryJava, LTSJava, GraalVM11)
 
 val Scala212 = "2.12.17"
 val Scala213 = "2.13.10"
-val Scala3 = "3.2.0"
+val Scala3 = "3.2.1"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala3)
 ThisBuild / scalaVersion := Scala213
@@ -281,9 +281,6 @@ lazy val bench = project
   .settings(moduleName := "cats-bench")
   .settings(commonJvmSettings)
   .settings(
-    libraryDependencies ++= Seq(
-      "org.scalaz" %% "scalaz-core" % "7.3.6"
-    ),
     evictionErrorLevel := Level.Warn
   )
   .enablePlugins(NoPublishPlugin, JmhPlugin)
