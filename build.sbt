@@ -9,8 +9,6 @@ val disciplineMunitVersion = "2.0.0-M3"
 
 val munitVersion = "1.0.0-M7"
 
-val kindProjectorVersion = "0.13.2"
-
 val PrimaryJava = JavaSpec.temurin("8")
 val LTSJava = JavaSpec.temurin("17")
 val GraalVM11 = JavaSpec.graalvm("11")
@@ -19,7 +17,7 @@ ThisBuild / githubWorkflowJavaVersions := Seq(PrimaryJava, LTSJava, GraalVM11)
 
 val Scala212 = "2.12.17"
 val Scala213 = "2.13.10"
-val Scala3 = "3.2.1"
+val Scala3 = "3.2.2"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala3)
 ThisBuild / scalaVersion := Scala213
@@ -78,6 +76,7 @@ lazy val commonJsSettings = Seq(
   tlVersionIntroduced ++= List("2.12", "2.13").map(_ -> "2.1.0").toMap
 )
 
+Global / concurrentRestrictions += Tags.limit(NativeTags.Link, 1)
 lazy val commonNativeSettings = Seq(
   doctestGenTests := Seq.empty,
   tlVersionIntroduced ++= List("2.12", "2.13").map(_ -> "2.4.0").toMap + ("3" -> "2.8.0")
@@ -109,7 +108,6 @@ lazy val root = tlCrossRootProject
     tests,
     alleycatsCore,
     alleycatsLaws,
-    alleycatsTests,
     unidocs,
     bench,
     binCompatTest
@@ -236,21 +234,11 @@ lazy val alleycatsCore = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(commonNativeSettings)
 
 lazy val alleycatsLaws = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .crossType(CrossType.Pure)
   .in(file("alleycats-laws"))
-  .dependsOn(alleycatsCore, laws)
+  .dependsOn(alleycatsCore, laws, tests % "test-internal -> test")
   .settings(moduleName := "alleycats-laws", name := "Alleycats laws")
   .settings(disciplineDependencies)
   .settings(testingDependencies)
-  .jsSettings(commonJsSettings)
-  .jvmSettings(commonJvmSettings)
-  .nativeSettings(commonNativeSettings)
-
-lazy val alleycatsTests = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .in(file("alleycats-tests"))
-  .dependsOn(alleycatsLaws, tests % "test-internal -> test")
-  .enablePlugins(NoPublishPlugin)
-  .settings(moduleName := "alleycats-tests")
   .jsSettings(commonJsSettings)
   .jvmSettings(commonJvmSettings)
   .nativeSettings(commonNativeSettings)
@@ -302,7 +290,27 @@ lazy val docs = project
   .enablePlugins(TypelevelSitePlugin)
   .settings(
     tlFatalWarnings := false,
-    laikaConfig ~= { _.withRawContent },
+    mdocVariables += ("API_LINK_BASE" -> s"https://www.javadoc.io/doc/org.typelevel/cats-docs_2.13/${mdocVariables
+        .value("VERSION")}/"),
+    laikaConfig := {
+      import laika.rewrite.link._
+
+      laikaConfig.value.withRawContent
+        .withConfigValue("version", mdocVariables.value("VERSION"))
+        .withConfigValue(
+          LinkConfig(apiLinks =
+            List(
+              ApiLinks(
+                baseUri = s"https://www.javadoc.io/doc/org.typelevel/cats-docs_2.13/${mdocVariables.value("VERSION")}/"
+              ),
+              ApiLinks(
+                baseUri = s"https://www.scala-lang.org/api/$Scala213/",
+                packagePrefix = "scala"
+              )
+            )
+          )
+        )
+    },
     tlSiteRelatedProjects := Seq(
       TypelevelProject.CatsEffect,
       "Mouse" -> url("https://typelevel.org/mouse"),
