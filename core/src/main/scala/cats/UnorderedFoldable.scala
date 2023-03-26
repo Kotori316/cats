@@ -99,7 +99,7 @@ trait UnorderedFoldable[F[_]] extends Serializable {
 }
 
 private[cats] trait UnorderedFoldableLowPriority {
-  implicit def catsTraverseForSeq: Traverse[Seq] = cats.instances.seq.catsStdInstancesForSeq
+  implicit def catsTraverseForSeq: Traverse[Seq] = cats.instances.all.catsStdInstancesForSeq
 }
 
 object UnorderedFoldable
