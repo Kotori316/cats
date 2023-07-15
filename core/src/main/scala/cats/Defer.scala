@@ -82,11 +82,11 @@ object Defer {
   implicit def catsDeferForFunction0: Defer[Function0] = cats.instances.FunctionI.catsSddDeferForFunction0
   implicit def catsDeferForFunction1[A]: Defer[Function1[A, *]] = cats.instances.FunctionI.catsStdDeferForFunction1[A]
   implicit def catsDeferForHash: Defer[Hash] = cats.implicits.catsDeferForHash
-  implicit def catsDeferForOrder: Defer[Order] = cats.instances.order.catsDeferForOrder
-  implicit def catsStdDeferForOrdering: Defer[Ordering] = cats.instances.ordering.catsStdDeferForOrdering
-  implicit def catsDeferForPartialOrder: Defer[PartialOrder] = cats.instances.partialOrder.catsDeferForPartialOrder
+  implicit def catsDeferForOrder: Defer[Order] = cats.instances.OrderI.catsDeferForOrder
+  implicit def catsStdDeferForOrdering: Defer[Ordering] = cats.instances.OrderingI.catsStdDeferForOrdering
+  implicit def catsDeferForPartialOrder: Defer[PartialOrder] = cats.instances.PartialOrderI.catsDeferForPartialOrder
   implicit def catsStdDeferForPartialOrdering: Defer[PartialOrdering] =
-    cats.instances.partialOrdering.catsStdDeferForPartialOrdering
+    cats.instances.PartialOrderingI.catsStdDeferForPartialOrdering
   implicit def catsDeferForShow: Defer[Show] = cats.implicits.catsDeferForShow
   implicit def catsDeferForTailRec: Defer[TailRec] = cats.instances.TailRecI.catsInstancesForTailRec
 }
