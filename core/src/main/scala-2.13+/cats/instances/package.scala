@@ -67,6 +67,7 @@ package object instances {
   object SetI extends SetInstances
   object SeqI extends SeqInstances
   object ShortI extends ShortInstances
+  object ShowI extends ShowInstances
   object SortedMapI
       extends SortedMapInstances
       with SortedMapInstancesBinCompat0
