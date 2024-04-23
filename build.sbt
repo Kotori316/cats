@@ -1,5 +1,5 @@
 ThisBuild / tlBaseVersion := "2.11"
-ThisBuild / version := "2.10.0-kotori"
+ThisBuild / version := "2.10.1-kotori"
 
 val scalaCheckVersion = "1.17.1"
 

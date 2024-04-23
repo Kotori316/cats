@@ -118,11 +118,11 @@ private[cats] trait ShowInstances extends cats.instances.NTupleShowInstances wit
   implicit def catsShowForFiniteDuration: Show[FiniteDuration] =
     cats.instances.FiniteDurationI.catsStdShowForFiniteDurationUnambiguous
 
-  implicit def catsShowForSortedSet[A: Show]: Show[SortedSet[A]] = cats.instances.sortedSet.catsStdShowForSortedSet[A]
+  implicit def catsShowForSortedSet[A: Show]: Show[SortedSet[A]] = cats.instances.SortedSetI.catsStdShowForSortedSet[A]
 }
 
 private[cats] trait ShowInstances0 {
   implicit def catsShowForSeq[A: Show]: Show[Seq[A]] = cats.instances.SeqI.catsStdShowForSeq[A]
-  implicit def catsShowForMap[K: Show, V: Show]: Show[Map[K, V]] = cats.instances.map.catsStdShowForMap[K, V]
-  implicit def catsShowForSet[A: Show]: Show[Set[A]] = cats.instances.set.catsStdShowForSet[A]
+  implicit def catsShowForMap[K: Show, V: Show]: Show[Map[K, V]] = cats.instances.MapI.catsStdShowForMap[K, V]
+  implicit def catsShowForSet[A: Show]: Show[Set[A]] = cats.instances.SetI.catsStdShowForSet[A]
 }
