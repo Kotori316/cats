@@ -1,5 +1,5 @@
 ThisBuild / tlBaseVersion := "2.12"
-ThisBuild / version := "2.10.1-kotori"
+ThisBuild / version := "2.12.0-kotori"
 
 val scalaCheckVersion = "1.18.0"
 
@@ -65,7 +65,7 @@ lazy val sharedPublishSettings = Seq(
   Test / publishArtifact := false,
   pomIncludeRepository := Function.const(false),
   publishTo := {
-    Some("mods".at("https://pkgs.dev.azure.com/Kotori316/minecraft/_packaging/mods/maven/v1"))
+    Some("mods".at("https://maven2.kotori316.com/production/maven"))
   },
   credentials += Credentials(Path.userHome / ".sbt" / "sbt.properties")
 )
