@@ -22,7 +22,7 @@
 package cats
 package arrow
 
-private[arrow] class FunctionKMacroMethods {
+private[arrow] class FunctionKMacroMethods extends FunctionKLift {
 
   /**
    * Lifts function `f` of `[X] => F[X] => G[X]` into a `FunctionK[F, G]`.

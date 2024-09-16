@@ -20,16 +20,26 @@
  */
 
 package cats
-package data
+package arrow
 
-/**
- * Helper trait for `newtype`s. These allow you to create a zero-allocation wrapper around a specific type.
- * Similar to `AnyVal` value classes, but never have any runtime overhead.
- * It's copied from the newtypes lib by @alexknvl
- * For more detail see https://github.com/alexknvl/newtypes
- */
-private[data] trait Newtype { self =>
-  private[data] type Base
-  private[data] trait Tag extends Any
-  type Type[A] <: Base with Tag
+private[arrow] trait FunctionKLift {
+  protected type τ[F[_], G[_]]
+
+  /**
+   * Lifts function `f` of `F[A] => G[A]` into a `FunctionK[F, G]`.
+   *
+   * {{{
+   *   def headOption[A](list: List[A]): Option[A] = list.headOption
+   *   val lifted = FunctionK.liftFunction[List, Option](headOption)
+   * }}}
+   *
+   * Note: The weird `τ[F, G]` parameter is there to compensate for
+   * the lack of polymorphic function types in Scala 2.
+   * 
+   * It is present in the Scala 3 API to simplify cross-compilation.
+   */
+  def liftFunction[F[_], G[_]](f: F[τ[F, G]] => G[τ[F, G]]): FunctionK[F, G] =
+    new FunctionK[F, G] {
+      def apply[A](fa: F[A]): G[A] = f.asInstanceOf[F[A] => G[A]](fa)
+    }
 }
