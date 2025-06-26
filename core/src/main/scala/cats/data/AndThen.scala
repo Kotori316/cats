@@ -83,7 +83,7 @@ import scala.annotation.tailrec
  */
 sealed abstract class AndThen[-T, +R] extends (T => R) with Product with Serializable {
 
-  import AndThen._
+  import AndThen.*
 
   final def apply(a: T): R =
     runLoop(a)
@@ -310,7 +310,7 @@ abstract private[data] class AndThenInstances0 extends AndThenInstances1 {
    * [[cats.arrow.CommutativeArrow CommutativeArrow]] instances
    * for [[AndThen]].
    */
-  implicit val catsDataArrowForAndThen: ArrowChoice[AndThen] with CommutativeArrow[AndThen] =
+  implicit val catsDataArrowForAndThen: ArrowChoice[AndThen] & CommutativeArrow[AndThen] =
     new ArrowChoice[AndThen] with CommutativeArrow[AndThen] {
       // Piggybacking on the instance for Function1
       private[this] val fn1 = instances.all.catsStdInstancesForFunction1

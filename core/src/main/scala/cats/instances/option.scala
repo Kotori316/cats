@@ -24,16 +24,13 @@ package instances
 
 import scala.annotation.tailrec
 import cats.data.Ior
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 
 trait OptionInstances extends cats.kernel.instances.OptionInstances {
 
-  implicit val catsStdInstancesForOption: Traverse[Option]
-    with MonadError[Option, Unit]
-    with Alternative[Option]
-    with CommutativeMonad[Option]
-    with CoflatMap[Option]
-    with Align[Option] =
+  implicit val catsStdInstancesForOption: Traverse[Option] & MonadError[Option, Unit] & Alternative[
+    Option
+  ] & CommutativeMonad[Option] & CoflatMap[Option] & Align[Option] =
     new Traverse[Option]
       with MonadError[Option, Unit]
       with Alternative[Option]

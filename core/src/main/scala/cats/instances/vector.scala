@@ -24,14 +24,14 @@ package instances
 
 import cats.data.{Chain, Ior, ZipVector}
 import cats.instances.StaticMethods.appendAll
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 
 import scala.annotation.tailrec
 import scala.collection.immutable.VectorBuilder
 
 trait VectorInstances extends cats.kernel.instances.VectorInstances {
   implicit val catsStdInstancesForVector
-    : Traverse[Vector] with Monad[Vector] with Alternative[Vector] with CoflatMap[Vector] with Align[Vector] =
+    : Traverse[Vector] & Monad[Vector] & Alternative[Vector] & CoflatMap[Vector] & Align[Vector] =
     new Traverse[Vector] with Monad[Vector] with Alternative[Vector] with CoflatMap[Vector] with Align[Vector] {
 
       def empty[A]: Vector[A] = Vector.empty[A]
@@ -140,9 +140,9 @@ trait VectorInstances extends cats.kernel.instances.VectorInstances {
       /**
        * This avoids making a very deep stack by building a tree instead
        */
-      override def traverse_[G[_], A, B](fa: Vector[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] = {
+      override def traverseVoid[G[_], A, B](fa: Vector[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] = {
         G match {
-          case x: StackSafeMonad[G] => Traverse.traverse_Directly(fa)(f)(x)
+          case x: StackSafeMonad[G] => Traverse.traverseVoidDirectly(fa)(f)(x)
           case _                    =>
             // the cost of this is O(size)
             // c(n) = 1 + 2 * c(n/2)

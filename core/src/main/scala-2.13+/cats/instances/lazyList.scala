@@ -23,8 +23,8 @@ package cats
 package instances
 
 import cats.kernel
-import cats.kernel.compat.scalaVersionSpecific._
-import cats.syntax.show._
+import cats.kernel.compat.scalaVersionSpecific.*
+import cats.syntax.show.*
 import cats.data.Ior
 import cats.data.ZipLazyList
 
@@ -34,7 +34,7 @@ import scala.annotation.tailrec
 trait LazyListInstances extends cats.kernel.instances.LazyListInstances {
 
   implicit val catsStdInstancesForLazyList
-    : Traverse[LazyList] with Alternative[LazyList] with Monad[LazyList] with CoflatMap[LazyList] with Align[LazyList] =
+    : Traverse[LazyList] & Alternative[LazyList] & Monad[LazyList] & CoflatMap[LazyList] & Align[LazyList] =
     new Traverse[LazyList]
       with Alternative[LazyList]
       with Monad[LazyList]

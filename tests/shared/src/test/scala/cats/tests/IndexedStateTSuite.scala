@@ -21,7 +21,7 @@
 
 package cats.tests
 
-import cats._
+import cats.*
 import cats.arrow.Profunctor
 import cats.arrow.Strong
 import cats.data.EitherT
@@ -29,12 +29,12 @@ import cats.data.IndexedStateT
 import cats.data.State
 import cats.data.StateT
 import cats.laws.discipline.SemigroupalTests.Isomorphisms
-import cats.laws.discipline._
-import cats.laws.discipline.arbitrary._
-import cats.laws.discipline.eq._
+import cats.laws.discipline.*
+import cats.laws.discipline.arbitrary.*
+import cats.laws.discipline.eq.*
 import cats.platform.Platform
-import cats.syntax.all._
-import org.scalacheck.Prop._
+import cats.syntax.all.*
+import org.scalacheck.Prop.*
 import org.scalacheck.Test.Parameters
 
 class IndexedStateTSuite extends CatsSuite {
@@ -42,7 +42,7 @@ class IndexedStateTSuite extends CatsSuite {
   implicit override val scalaCheckTestParameters: Parameters =
     checkConfiguration.withMaxSize(checkConfiguration.minSize + 5)
 
-  import IndexedStateTSuite._
+  import IndexedStateTSuite.*
 
   test("basic state usage") {
     assert(add1.run(1).value === (2 -> 1))
@@ -350,7 +350,6 @@ class IndexedStateTSuite extends CatsSuite {
 
   test("fromState correctly turns State[A, F[B]] into StateT[F, A, B]") {
     val state: State[Int, Option[Int]] = add1.map(Some.apply)
-    import cats.implicits.catsStdInstancesForOption
     forAll { (initial: Int) =>
       assert(StateT.fromState(state).run(initial).get === {
         val (s, Some(result)) = state.run(initial).value: @unchecked // non-exhaustive match warning
@@ -413,8 +412,9 @@ class IndexedStateTSuite extends CatsSuite {
     checkAll("IndexedStateT[ListWrapper, MiniInt, Int, *]",
              FunctorFilterTests[IndexedStateT[ListWrapper, MiniInt, Int, *]].functorFilter[Int, Int, Int]
     )
-    checkAll("FunctorFilter[IndexedStateT[ListWrapper, MiniInt, Int, *]]",
-             SerializableTests.serializable(FunctorFilter[IndexedStateT[ListWrapper, MiniInt, Int, *]])
+    checkAll(
+      "FunctorFilter[IndexedStateT[ListWrapper, MiniInt, Int, *]]",
+      SerializableTests.serializable(FunctorFilter[IndexedStateT[ListWrapper, MiniInt, Int, *]])
     )
 
     FunctorFilter[IndexedStateT[ListWrapper, String, Int, *]]
@@ -439,8 +439,9 @@ class IndexedStateTSuite extends CatsSuite {
     implicit val F: Monad[ListWrapper] = ListWrapper.monad
     implicit val FS: Bifunctor[IndexedStateT[ListWrapper, Int, *, *]] = IndexedStateT.catsDataBifunctorForIndexedStateT
 
-    checkAll("IndexedStateT[ListWrapper, MiniInt, String, Int]",
-             BifunctorTests[IndexedStateT[ListWrapper, MiniInt, *, *]].bifunctor[String, String, String, Int, Int, Int]
+    checkAll(
+      "IndexedStateT[ListWrapper, MiniInt, String, Int]",
+      BifunctorTests[IndexedStateT[ListWrapper, MiniInt, *, *]].bifunctor[String, String, String, Int, Int, Int]
     )
     checkAll("Bifunctor[IndexedStateT[ListWrapper, Int, *, *]]",
              SerializableTests.serializable(Bifunctor[IndexedStateT[ListWrapper, Int, *, *]])
@@ -520,7 +521,7 @@ class IndexedStateTSuite extends CatsSuite {
     implicit val f: Isomorphisms[IndexedStateT[ListWrapper, MiniInt, MiniInt, *]] = Isomorphisms.invariant(SA)
 
     checkAll("IndexedStateT[ListWrapper, MiniInt, Int, Int]",
-             AlternativeTests[IndexedStateT[ListWrapper, MiniInt, MiniInt, *]](SA).alternative[Int, Int, Int]
+             AlternativeTests[IndexedStateT[ListWrapper, MiniInt, MiniInt, *]](using SA).alternative[Int, Int, Int]
     )
     checkAll("Alternative[IndexedStateT[ListWrapper, Int, Int, *]]", SerializableTests.serializable(SA))
 

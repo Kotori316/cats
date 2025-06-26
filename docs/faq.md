@@ -27,7 +27,7 @@ Please refer to the [jump start guide](jump_start_guide.md).
 
 Cats and [Scalaz](https://github.com/scalaz/scalaz) have the same goal: to facilitate pure functional programming in Scala applications. However the underlying core strategy is different; Scalaz took the approach of trying to provide a single batteries-included *standard library* for FP that powers the Scala applications. Cats, on the other hand, aims to help build an [ecosystem](typelevelEcosystem.md) of pure FP libraries by providing a solid and stable foundation; these libraries can have their own styles and personalities, competing with each other, while at the same time playing nice. It is through this ecosystem of FP libraries (cats included) that Scala applications can be powered with "FP awesome-ness" and beyond by picking whatever best fit their needs.
 
-Based on this core strategy, Cats takes a [modular](motivations.md#modularity) approach and focuses on providing core, [binary compatible](index.md#binary-compatibility-and-versioning), [approachable](motivations.md#approachability) and [efficient](motivations.md#efficiency) abstractions. It provides a welcoming and supportive environment for the [user community](https://discord.gg/XF3CXcMzqD) governed by the [Scala Code of Conduct](https://www.scala-lang.org/conduct/). It also takes great effort in supplying a comprehensive and beginner-friendly [documentation](motivations.md#documentation).
+Based on this core strategy, Cats takes a [modular](motivations.md#modularity) approach and focuses on providing core, [binary compatible](index.md#binary-compatibility-and-versioning), [approachable](motivations.md#approachability) and [efficient](motivations.md#efficiency) abstractions. It provides a welcoming and supportive environment for the [user community](https://discord.gg/XF3CXcMzqD) governed by the [Typelevel Code of Conduct](https://typelevel.org/code-of-conduct.html). It also takes great effort in supplying a comprehensive and beginner-friendly [documentation](motivations.md#documentation).
 
 ## Where is right-biased Either?
 Up through Cats 0.7.x we had `cats.data.Xor`, which was effectively `scala.util.Either`, but right-biased by default and with
@@ -249,3 +249,33 @@ Or if you want, you can add these lines to `~/.ammonite/predef.sc` so that they 
 ## Why aren't monad transformers like `OptionT` and `EitherT` covariant like `Option` and `Either`?
 
 Please see [Variance of Monad Transformers](https://typelevel.org/blog/2018/09/29/monad-transformer-variance.html) on the Typelevel blog.
+
+## Why isn't `Set` a lawful `Functor` (and hence `Applicative`, `Monad`, etc.)?
+
+Although in many cases `Set` can behave as a `Functor` indeed, there are some edge cases where it doesn't.
+For example, `Set` can violate the "covariant composition" law of `Functor`, which is:
+
+```
+fa.map(f).map(g) <-> fa.map(f.andThen(g))
+```
+
+Since `Set` in internally based on universal hashing and equality, it violates this law when used with a data type that
+overrides `equals` and `hashCode` in a such a way that its instances may appear equal but de-facto contain different
+values. One example of this type is `scala.concurrent.duration.Duration`:
+
+```scala mdoc
+import scala.concurrent.duration.*
+
+val f: String => Duration = Duration.apply
+val g: Duration => String = _.toString
+
+val set = Set("1 minute", "60 seconds", "60000 milliseconds")
+
+set.map(f).map(g) // ==> Set("1 minute")
+set.map(f.andThen(g)) // ==> Set("1 minute", "60 seconds", "60000 milliseconds")
+```
+
+Another good real-world example to be aware of is [CIString](https://typelevel.org/case-insensitive).
+
+That said, there's a `Monad[Set]` instance in the [Alleycats](https://typelevel.org/cats/alleycats.html#set-_-instances)
+module, which you can use on your own risk if you are sure about data types you are working with. 

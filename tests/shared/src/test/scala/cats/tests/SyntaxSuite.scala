@@ -21,7 +21,7 @@
 
 package cats.tests
 
-import cats._
+import cats.*
 import cats.arrow.Compose
 import cats.data.{
   Binested,
@@ -39,8 +39,7 @@ import cats.data.{
   ValidatedNec,
   ValidatedNel
 }
-import cats.syntax.OptionOps
-import cats.syntax.all._
+import cats.syntax.all.*
 
 import scala.collection.immutable.{SortedMap, SortedSet}
 
@@ -155,11 +154,11 @@ object SyntaxSuite {
     val a1: A = fz.foldMap(f3)
 
     val f4 = mock[A => G[B]]
-    val gu0: G[Unit] = fa.traverse_(f4)
+    val gu0: G[Unit] = fa.traverseVoid(f4)
 
     val fga = mock[F[G[A]]]
-    val gu1: G[Unit] = fga.sequence_
-    val ga: G[A] = fga.foldK
+    val gu1: G[Unit] = fga.sequenceVoid // NestedFoldableOps
+    val ga1: G[A] = fga.foldK // NestedFoldableOps
 
     val f5 = mock[A => Boolean]
     val oa: Option[A] = fa.find(f5)
@@ -201,7 +200,19 @@ object SyntaxSuite {
     val gunit: G[F[A]] = fga.nonEmptySequence
   }
 
-  def testParallel[M[_]: Parallel, T[_]: Traverse, A, B]: Unit = {
+  def testParallelFoldable[M[_]: Parallel, T[_]: Foldable, A, B](): Unit = {
+    val ta = mock[T[A]]
+    val tma = mock[T[M[A]]]
+    val famb = mock[A => M[B]]
+
+    val mu1 = ta.parTraverseVoid(famb)
+    val mu2 = tma.parSequenceVoid
+
+    // Suppress "unused local val" warnings and make sure the types were inferred correctly.
+    val _ = (mu1: M[Unit], mu2: M[Unit])
+  }
+
+  def testParallelTraverse[M[_]: Parallel, T[_]: Traverse, A, B](): Unit = {
     val ta = mock[T[A]]
     val f = mock[A => M[B]]
     val mtb = ta.parTraverse(f)
@@ -286,6 +297,54 @@ object SyntaxSuite {
     tfa.parFlatMap(mfone)
   }
 
+  def testLiftN[F[_]: Apply, A, B, C, T] = {
+    val fa = mock[F[A]]
+    val fb = mock[F[B]]
+    val fc = mock[F[C]]
+
+    val fapply1 = mock[A => T]
+
+    val result1 = fapply1.liftN(fa)
+
+    result1: F[T]
+
+    val fapply2 = mock[(A, B) => T]
+
+    val result2 = fapply2.liftN(fa, fb)
+
+    result2: F[T]
+
+    val fapply3 = mock[(A, B, C) => T]
+
+    val result3 = fapply3.liftN(fa, fb, fc)
+
+    result3: F[T]
+  }
+
+  def testParLiftN[F[_]: Parallel: Functor, A, B, C, T] = {
+    val fa = mock[F[A]]
+    val fb = mock[F[B]]
+    val fc = mock[F[C]]
+
+    val fapply1 = mock[A => T]
+
+    val result1 = fapply1.parLiftN(fa)
+
+    result1: F[T]
+
+    val fapply2 = mock[(A, B) => T]
+
+    val result2 = fapply2.parLiftN(fa, fb)
+
+    result2: F[T]
+
+    val fapply3 = mock[(A, B, C) => T]
+
+    val result3 = fapply3.parLiftN(fa, fb, fc)
+
+    result3: F[T]
+  }
+
   def testParallelBi[M[_], F[_], T[_, _]: Bitraverse, A, B, C, D](implicit P: Parallel.Aux[M, F]): Unit = {
     val tab = mock[T[A, B]]
     val f = mock[A => M[C]]
@@ -300,7 +359,7 @@ object SyntaxSuite {
     val mtab2 = tmab.parLeftSequence
   }
 
-  def testParallelFoldable[T[_]: Foldable, M[_]: Parallel, A, B: Monoid]: Unit = {
+  def testParallelFoldableMonoid[T[_]: Foldable, M[_]: Parallel, A, B: Monoid](): Unit = {
     val ta = mock[T[A]]
     val f = mock[A => M[B]]
     val mb = ta.parFoldMapA(f)
@@ -331,9 +390,9 @@ object SyntaxSuite {
     val lb: Eval[B] = fa.reduceRightTo(f4)(f6)
 
     val f7 = mock[A => G[B]]
-    val gu1: G[Unit] = fa.nonEmptyTraverse_(f7)
+    val gu1: G[Unit] = fa.nonEmptyTraverseVoid(f7)
 
-    val gu2: G[Unit] = fga.nonEmptySequence_
+    val gu2: G[Unit] = fga.nonEmptySequenceVoid
   }
 
   def testFunctor[F[_]: Functor, A, B]: Unit = {

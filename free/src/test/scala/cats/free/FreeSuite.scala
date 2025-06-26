@@ -21,23 +21,23 @@
 
 package cats.free
 
-import cats._
+import cats.*
 import cats.arrow.FunctionK
 import cats.data.EitherK
-import cats.instances.all._
+import cats.instances.all.*
 import cats.kernel.Eq
-import cats.syntax.eq._
+import cats.syntax.eq.*
 import cats.laws.discipline.{DeferTests, FoldableTests, MonadTests, SerializableTests, TraverseTests}
 import cats.laws.discipline.arbitrary.catsLawsArbitraryForFn0
 import cats.laws.discipline.SemigroupalTests.Isomorphisms
-import cats.syntax.apply._
+import cats.syntax.apply.*
 import cats.tests.CatsSuite
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import org.scalacheck.Arbitrary.arbFunction1
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.*
 
 class FreeSuite extends CatsSuite {
-  import FreeSuite._
+  import FreeSuite.*
 
   implicit val iso: Isomorphisms[Free[Option, *]] = Isomorphisms.invariant[Free[Option, *]]
 
@@ -233,8 +233,8 @@ class FreeSuite extends CatsSuite {
       f: Free[F, A]
     )(implicit F: Functor[F], I0: Test1Algebra :<: F, I1: Test2Algebra :<: F): Option[Free[F, A]] =
       for {
-        Test1(x, h) <- Free.match_[F, Test1Algebra, A](f)
-        Test2(y, k) <- Free.match_[F, Test2Algebra, A](h(x))
+        case Test1(x, h) <- Free.match_[F, Test1Algebra, A](f)
+        case Test2(y, k) <- Free.match_[F, Test2Algebra, A](h(x))
       } yield k(x + y)
 
     forAll { (x: Int, y: Int) =>

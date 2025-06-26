@@ -25,7 +25,7 @@ package instances
 import cats.data.Validated
 import cats.kernel.Semigroup
 import cats.syntax.EitherUtil
-import cats.syntax.either._
+import cats.syntax.either.*
 
 import scala.annotation.tailrec
 import cats.data.Ior
@@ -57,7 +57,7 @@ trait EitherInstances extends cats.kernel.instances.EitherInstances {
     }
 
   implicit def catsStdInstancesForEither[A]
-    : MonadError[Either[A, *], A] with Traverse[Either[A, *]] with Align[Either[A, *]] =
+    : MonadError[Either[A, *], A] & Traverse[Either[A, *]] & Align[Either[A, *]] =
     new MonadError[Either[A, *], A] with Traverse[Either[A, *]] with Align[Either[A, *]] {
       override def unit: Either[A, Unit] = Either.unit
 

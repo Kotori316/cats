@@ -21,13 +21,13 @@
 
 package cats.tests
 
-import cats._
+import cats.*
 import cats.data.{StoreT, Validated}
-import cats.laws.discipline._
-import cats.laws.discipline.arbitrary._
-import cats.laws.discipline.eq._
-import cats.syntax.eq._
-import org.scalacheck.Prop._
+import cats.laws.discipline.*
+import cats.laws.discipline.arbitrary.*
+import cats.laws.discipline.eq.*
+import cats.syntax.eq.*
+import org.scalacheck.Prop.*
 import cats.data.RepresentableStoreT
 import org.scalacheck.{Arbitrary, Cogen}
 
@@ -48,26 +48,9 @@ class RepresentableStoreTSuite extends CatsSuite {
   val h: Eq[StoreT[Id, MiniInt, StoreT[Id, MiniInt, StoreT[Id, MiniInt, Int]]]] =
     Eq[StoreT[Id, MiniInt, StoreT[Id, MiniInt, StoreT[Id, MiniInt, Int]]]]
 
-  checkAll("StoreT[Id, MiniInt, *]",
-           ComonadTests[StoreT[Id, MiniInt, *]].comonad[Int, Int, Int](
-             a,
-             b,
-             a,
-             b,
-             a,
-             b,
-             c,
-             d,
-             d,
-             d,
-             e,
-             e,
-             f,
-             g,
-             h,
-             f,
-             f
-           )
+  checkAll(
+    "StoreT[Id, MiniInt, *]",
+    ComonadTests[StoreT[Id, MiniInt, *]].comonad[Int, Int, Int](using a, b, a, b, a, b, c, d, d, d, e, e, f, g, h, f, f)
   )
 
   checkAll("Comonad[StoreT[Id, MiniInt, *]]", SerializableTests.serializable(Comonad[StoreT[Id, MiniInt, *]]))

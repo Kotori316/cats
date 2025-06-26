@@ -23,9 +23,9 @@ package cats.tests
 
 import cats.{Invariant, InvariantMonoidal, Semigroupal}
 import cats.kernel.Semigroup
-import cats.syntax.eq._
+import cats.syntax.eq.*
 import cats.kernel.laws.discipline.SemigroupTests
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.*
 
 class SemigroupSuite extends CatsSuite {
 
@@ -47,11 +47,11 @@ class SemigroupSuite extends CatsSuite {
 
   {
     val S = Semigroup.first[Int]
-    checkAll("Semigroup.first", SemigroupTests[Int](S).semigroup)
+    checkAll("Semigroup.first", SemigroupTests[Int](using S).semigroup)
   }
 
   {
     val S = Semigroup.last[Int]
-    checkAll("Semigroup.last", SemigroupTests[Int](S).semigroup)
+    checkAll("Semigroup.last", SemigroupTests[Int](using S).semigroup)
   }
 }

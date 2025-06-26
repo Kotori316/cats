@@ -31,15 +31,15 @@ import cats.laws.discipline.{
   SemigroupalTests,
   SerializableTests
 }
-import cats.laws.discipline.arbitrary._
+import cats.laws.discipline.arbitrary.*
 import cats.kernel.{Eq, Monoid, Order, PartialOrder, Semigroup}
 import cats.kernel.laws.discipline.{EqTests, GroupTests, MonoidTests, OrderTests, PartialOrderTests, SemigroupTests}
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import org.scalacheck.Arbitrary.arbitrary
 import scala.annotation.tailrec
 import scala.math.min
-import cats.syntax.eq._
-import org.scalacheck.Prop._
+import cats.syntax.eq.*
+import org.scalacheck.Prop.*
 
 class EvalSuite extends CatsSuite {
   implicit val eqThrow: Eq[Throwable] = Eq.allEqual
@@ -296,5 +296,18 @@ class EvalSuite extends CatsSuite {
       assert(Eval.defer(a2).value == Eval.defer(a2).value)
       assert(n2 == 1)
     }
+  }
+
+  test("test Defer.recursiveFn example") {
+    val sumTo: Int => Eval[Int] =
+      cats.Defer[Eval].recursiveFn[Int, Int] { recur =>
+
+        { i =>
+          if (i > 0) recur(i - 1).map(_ + i)
+          else Eval.now(0)
+        }
+      }
+
+    assert(sumTo(300000).value == (0 to 300000).sum)
   }
 }

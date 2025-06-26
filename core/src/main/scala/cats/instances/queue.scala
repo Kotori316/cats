@@ -24,7 +24,7 @@ package instances
 
 import cats.data.Chain
 import cats.instances.StaticMethods.appendAll
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 import cats.kernel.instances.StaticMethods.wrapMutableIndexedSeq
 
 import scala.annotation.tailrec
@@ -33,8 +33,7 @@ import scala.util.Try
 
 trait QueueInstances extends cats.kernel.instances.QueueInstances {
 
-  implicit val catsStdInstancesForQueue
-    : Traverse[Queue] with Alternative[Queue] with Monad[Queue] with CoflatMap[Queue] =
+  implicit val catsStdInstancesForQueue: Traverse[Queue] & Alternative[Queue] & Monad[Queue] & CoflatMap[Queue] =
     new Traverse[Queue] with Alternative[Queue] with Monad[Queue] with CoflatMap[Queue] {
       def empty[A]: Queue[A] = Queue.empty
 
@@ -134,9 +133,9 @@ trait QueueInstances extends cats.kernel.instances.QueueInstances {
               }
           }
 
-      override def traverse_[G[_], A, B](fa: Queue[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] =
+      override def traverseVoid[G[_], A, B](fa: Queue[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] =
         G match {
-          case x: StackSafeMonad[G] => Traverse.traverse_Directly(fa)(f)(x)
+          case x: StackSafeMonad[G] => Traverse.traverseVoidDirectly(fa)(f)(x)
           case _ =>
             foldRight(fa, Eval.now(G.unit)) { (a, acc) =>
               G.map2Eval(f(a), acc) { (_, _) =>
@@ -223,7 +222,7 @@ trait QueueInstances extends cats.kernel.instances.QueueInstances {
 @suppressUnusedImportWarningForScalaVersionSpecific
 private object QueueInstances {
   private val catsStdTraverseFilterForQueue: TraverseFilter[Queue] = new TraverseFilter[Queue] {
-    val traverse: Traverse[Queue] with Alternative[Queue] = cats.instances.QueueI.catsStdInstancesForQueue
+    val traverse: Traverse[Queue] & Alternative[Queue] = cats.instances.QueueI.catsStdInstancesForQueue
 
     override def mapFilter[A, B](fa: Queue[A])(f: (A) => Option[B]): Queue[B] =
       fa.collect(Function.unlift(f))

@@ -26,17 +26,17 @@ import cats.arrow.Compose
 import cats.kernel.laws.discipline.SemigroupTests
 import cats.laws.discipline.{MiniInt, SemigroupKTests, SerializableTests}
 import cats.laws.discipline.eq.catsLawsEqForFn1Exhaustive
-import cats.laws.discipline.arbitrary._
-import cats.syntax.compose._
+import cats.laws.discipline.arbitrary.*
+import cats.syntax.compose.*
 
 class ComposeSuite extends CatsSuite {
   val functionCompose = Compose[Function1]
 
-  checkAll("Compose[Function1].algebraK", SemigroupKTests[Endo](functionCompose.algebraK).semigroupK[MiniInt])
+  checkAll("Compose[Function1].algebraK", SemigroupKTests[Endo](using functionCompose.algebraK).semigroupK[MiniInt])
   checkAll("Compose[Function1].algebraK", SerializableTests.serializable(functionCompose.algebraK))
 
   val functionAlgebra = functionCompose.algebra[MiniInt]
-  checkAll("Compose[Function1].algebra[MiniInt]", SemigroupTests[Endo[MiniInt]](functionAlgebra).semigroup)
+  checkAll("Compose[Function1].algebra[MiniInt]", SemigroupTests[Endo[MiniInt]](using functionAlgebra).semigroup)
 
   test("syntax") {
     assertEquals((((_: Int) + 1) <<< ((_: Int) / 2))(2), 2)

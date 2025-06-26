@@ -21,12 +21,12 @@
 
 package cats.tests
 
-import cats._
+import cats.*
 import cats.data.Const
 import cats.data.NonEmptyList
 import cats.data.StateT
-import cats.kernel.compat.scalaVersionSpecific._
-import cats.syntax.all._
+import cats.kernel.compat.scalaVersionSpecific.*
+import cats.syntax.all.*
 
 import scala.collection.immutable.SortedMap
 import scala.collection.mutable
@@ -162,28 +162,28 @@ class RegressionSuite extends CatsSuite with ScalaVersionSpecificRegressionSuite
     assert(Vector(1, 2, 6, 8).traverse(validate) === (Either.left("6 is greater than 5")))
     checkAndResetCount(3)
 
-    assert(List(1, 2, 6, 8).traverse_(validate) === (Either.left("6 is greater than 5")))
+    assert(List(1, 2, 6, 8).traverseVoid(validate) === Either.left("6 is greater than 5"))
     checkAndResetCount(3)
 
     {
       @annotation.nowarn("cat=deprecation")
-      val obtained = Stream(1, 2, 6, 8).traverse_(validate)
+      val obtained = Stream(1, 2, 6, 8).traverseVoid(validate)
       assert(obtained === Either.left("6 is greater than 5"))
     }
     checkAndResetCount(3)
 
-    assert(Vector(1, 2, 6, 8).traverse_(validate) === (Either.left("6 is greater than 5")))
+    assert(Vector(1, 2, 6, 8).traverseVoid(validate) === Either.left("6 is greater than 5"))
     checkAndResetCount(3)
 
-    assert(NonEmptyList.of(1, 2, 6, 7, 8).traverse_(validate) === (Either.left("6 is greater than 5")))
+    assert(NonEmptyList.of(1, 2, 6, 7, 8).traverseVoid(validate) === Either.left("6 is greater than 5"))
     checkAndResetCount(3)
 
-    assert(NonEmptyList.of(6, 7, 8).traverse_(validate) === (Either.left("6 is greater than 5")))
+    assert(NonEmptyList.of(6, 7, 8).traverseVoid(validate) === Either.left("6 is greater than 5"))
     checkAndResetCount(1)
   }
 
   test("#2022 EitherT syntax no long works the old way") {
-    import cats.data._
+    import cats.data.*
 
     EitherT.right[String](Option(1)).handleErrorWith((_: String) => EitherT.pure(2))
 

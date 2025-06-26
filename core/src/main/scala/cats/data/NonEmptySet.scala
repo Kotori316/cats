@@ -22,11 +22,11 @@
 package cats
 package data
 
-import cats.kernel._
+import cats.kernel.*
 
-import scala.collection.immutable._
+import scala.collection.immutable.*
 
-import kernel.compat.scalaVersionSpecific._
+import kernel.compat.scalaVersionSpecific.*
 
 /**
  * Actual implementation for [[cats.data.NonEmptySet]]
@@ -373,7 +373,7 @@ sealed class NonEmptySetOps[A](private[data] val value: NonEmptySet[A]) {
 }
 
 sealed abstract private[data] class NonEmptySetInstances extends NonEmptySetInstances0 {
-  implicit val catsDataInstancesForNonEmptySet: SemigroupK[NonEmptySet] with Reducible[NonEmptySet] =
+  implicit val catsDataInstancesForNonEmptySet: SemigroupK[NonEmptySet] & Reducible[NonEmptySet] =
     new SemigroupK[NonEmptySet] with Reducible[NonEmptySet] {
 
       def combineK[A](a: NonEmptySet[A], b: NonEmptySet[A]): NonEmptySet[A] =

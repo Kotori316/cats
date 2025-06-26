@@ -22,8 +22,8 @@
 package cats.tests
 
 import cats.{CommutativeApplicative, CommutativeApply, Invariant, InvariantMonoidal}
-import cats.kernel._
-import cats.kernel.laws.discipline.{GroupTests, MonoidTests, SemigroupTests, _}
+import cats.kernel.*
+import cats.kernel.laws.discipline.{GroupTests, MonoidTests, SemigroupTests, *}
 import cats.laws.discipline.{
   ExhaustiveCheck,
   InvariantMonoidalTests,
@@ -32,11 +32,11 @@ import cats.laws.discipline.{
   MiniInt,
   SerializableTests
 }
-import cats.laws.discipline.MiniInt._
-import cats.laws.discipline.eq._
-import cats.laws.discipline.arbitrary._
-import cats.syntax.invariant._
-import cats.syntax.order._
+import cats.laws.discipline.MiniInt.*
+import cats.laws.discipline.eq.*
+import cats.laws.discipline.arbitrary.*
+import cats.syntax.invariant.*
+import cats.syntax.order.*
 import org.scalacheck.{Arbitrary, Gen}
 
 class AlgebraInvariantSuite extends CatsSuite with ScalaVersionSpecificAlgebraInvariantSuite {
@@ -174,8 +174,7 @@ class AlgebraInvariantSuite extends CatsSuite with ScalaVersionSpecificAlgebraIn
   implicit private val arbCommutativeGroupInt: Arbitrary[CommutativeGroup[Int]] =
     Arbitrary(genCommutativeGroupInt)
 
-  protected val integralForMiniInt: Numeric[MiniInt] with Integral[MiniInt] = new MiniIntNumeric
-    with Integral[MiniInt] {
+  protected val integralForMiniInt: Numeric[MiniInt] & Integral[MiniInt] = new MiniIntNumeric with Integral[MiniInt] {
     def quot(x: MiniInt, y: MiniInt): MiniInt = MiniInt.unsafeFromInt(x.toInt / y.toInt)
     def rem(x: MiniInt, y: MiniInt): MiniInt = MiniInt.unsafeFromInt(x.toInt % y.toInt)
   }
@@ -215,9 +214,10 @@ class AlgebraInvariantSuite extends CatsSuite with ScalaVersionSpecificAlgebraIn
       )
     }
 
-  checkAll("InvariantMonoidal[Semigroup]", SemigroupTests[Int](InvariantMonoidal[Semigroup].point(0)).semigroup)
-  checkAll("InvariantMonoidal[CommutativeSemigroup]",
-           CommutativeSemigroupTests[Int](InvariantMonoidal[CommutativeSemigroup].point(0)).commutativeSemigroup
+  checkAll("InvariantMonoidal[Semigroup]", SemigroupTests[Int](using InvariantMonoidal[Semigroup].point(0)).semigroup)
+  checkAll(
+    "InvariantMonoidal[CommutativeSemigroup]",
+    CommutativeSemigroupTests[Int](using InvariantMonoidal[CommutativeSemigroup].point(0)).commutativeSemigroup
   )
 
   checkAll("InvariantSemigroupal[Monoid]",
@@ -226,61 +226,61 @@ class AlgebraInvariantSuite extends CatsSuite with ScalaVersionSpecificAlgebraIn
 
   {
     val S: Semigroup[Int] = Semigroup[Int].imap(identity)(identity)
-    checkAll("Semigroup[Int]", SemigroupTests[Int](S).semigroup)
+    checkAll("Semigroup[Int]", SemigroupTests[Int](using S).semigroup)
   }
 
   {
     val S: Monoid[Int] = Monoid[Int].imap(identity)(identity)
-    checkAll("Monoid[Int]", MonoidTests[Int](S).monoid)
+    checkAll("Monoid[Int]", MonoidTests[Int](using S).monoid)
   }
 
   {
     val S: Group[Int] = Group[Int].imap(identity)(identity)
-    checkAll("Group[Int]", GroupTests[Int](S).group)
+    checkAll("Group[Int]", GroupTests[Int](using S).group)
   }
 
   {
     val S: CommutativeSemigroup[Int] = CommutativeSemigroup[Int].imap(identity)(identity)
-    checkAll("CommutativeSemigroup[Int]", CommutativeSemigroupTests[Int](S).commutativeSemigroup)
+    checkAll("CommutativeSemigroup[Int]", CommutativeSemigroupTests[Int](using S).commutativeSemigroup)
   }
 
   {
     val S: CommutativeSemigroup[Option[Int]] = CommutativeApply.commutativeSemigroupFor[Option, Int]
-    checkAll("CommutativeSemigroup[Option[Int]", CommutativeSemigroupTests[Option[Int]](S).commutativeSemigroup)
+    checkAll("CommutativeSemigroup[Option[Int]", CommutativeSemigroupTests[Option[Int]](using S).commutativeSemigroup)
   }
 
   {
     val S: CommutativeMonoid[Option[Int]] = CommutativeApplicative.commutativeMonoidFor[Option, Int]
-    checkAll("CommutativeMonoid[Option[Int]", CommutativeMonoidTests[Option[Int]](S).commutativeMonoid)
+    checkAll("CommutativeMonoid[Option[Int]", CommutativeMonoidTests[Option[Int]](using S).commutativeMonoid)
   }
 
   {
     val S: CommutativeMonoid[Int] = CommutativeMonoid[Int].imap(identity)(identity)
-    checkAll("CommutativeMonoid[Int]", CommutativeMonoidTests[Int](S).commutativeMonoid)
+    checkAll("CommutativeMonoid[Int]", CommutativeMonoidTests[Int](using S).commutativeMonoid)
   }
 
   {
-    checkAll("CommutativeMonoid[MiniInt]", CommutativeMonoidTests[MiniInt](miniIntAddition).commutativeMonoid)
+    checkAll("CommutativeMonoid[MiniInt]", CommutativeMonoidTests[MiniInt](using miniIntAddition).commutativeMonoid)
   }
 
   {
     val S: CommutativeGroup[Int] = CommutativeGroup[Int].imap(identity)(identity)
-    checkAll("CommutativeGroup[Int]", CommutativeGroupTests[Int](S).commutativeGroup)
+    checkAll("CommutativeGroup[Int]", CommutativeGroupTests[Int](using S).commutativeGroup)
   }
 
   {
     val S: Band[Set[Int]] = Band[Set[Int]].imap(identity)(identity)
-    checkAll("Band[Set[Int]]", BandTests[Set[Int]](S).band)
+    checkAll("Band[Set[Int]]", BandTests[Set[Int]](using S).band)
   }
 
   {
     val S: Semilattice[Set[Int]] = Semilattice[Set[Int]].imap(identity)(identity)
-    checkAll("Semilattice[Set[Int]]", SemilatticeTests[Set[Int]](S).semilattice)
+    checkAll("Semilattice[Set[Int]]", SemilatticeTests[Set[Int]](using S).semilattice)
   }
 
   {
     val S: BoundedSemilattice[Set[Int]] = BoundedSemilattice[Set[Int]].imap(identity)(identity)
-    checkAll("BoundedSemilattice[Set[Int]]", BoundedSemilatticeTests[Set[Int]](S).boundedSemilattice)
+    checkAll("BoundedSemilattice[Set[Int]]", BoundedSemilatticeTests[Set[Int]](using S).boundedSemilattice)
   }
 
   checkAll("Invariant[Semigroup]", InvariantTests[Semigroup].invariant[MiniInt, Boolean, Boolean])

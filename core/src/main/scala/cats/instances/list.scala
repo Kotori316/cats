@@ -25,7 +25,7 @@ package instances
 import cats.data.{Chain, Ior, ZipList}
 import cats.StackSafeMonad
 import cats.instances.StaticMethods.appendAll
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 import cats.kernel.instances.StaticMethods.wrapMutableIndexedSeq
 
 import scala.annotation.tailrec
@@ -34,7 +34,7 @@ import scala.collection.mutable.ListBuffer
 trait ListInstances extends cats.kernel.instances.ListInstances {
 
   implicit val catsStdInstancesForList
-    : Traverse[List] with Alternative[List] with Monad[List] with CoflatMap[List] with Align[List] =
+    : Traverse[List] & Alternative[List] & Monad[List] & CoflatMap[List] & Align[List] =
     new Traverse[List] with Alternative[List] with Monad[List] with CoflatMap[List] with Align[List] {
       def empty[A]: List[A] = Nil
 
@@ -134,9 +134,9 @@ trait ListInstances extends cats.kernel.instances.ListInstances {
       /**
        * This avoids making a very deep stack by building a tree instead
        */
-      override def traverse_[G[_], A, B](fa: List[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] = {
+      override def traverseVoid[G[_], A, B](fa: List[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] = {
         G match {
-          case x: StackSafeMonad[G] => Traverse.traverse_Directly(fa)(f)(x)
+          case x: StackSafeMonad[G] => Traverse.traverseVoidDirectly(fa)(f)(x)
           case _                    =>
             // the cost of this is O(size log size)
             // c(n) = n + 2 * c(n/2) = n + 2(n/2 log (n/2)) = n + n (logn - 1) = n log n

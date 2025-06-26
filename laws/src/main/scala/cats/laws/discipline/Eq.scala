@@ -24,12 +24,12 @@ package laws
 package discipline
 
 import cats.data.{AndThen, RepresentableStore, StoreT}
-import cats.instances.BooleanI._
-import cats.instances.IntI._
-import cats.instances.StringI._
-import cats.kernel._
+import cats.instances.BooleanI.*
+import cats.instances.IntI.*
+import cats.instances.StringI.*
+import cats.kernel.*
 import cats.platform.Platform
-import cats.syntax.eq._
+import cats.syntax.eq.*
 import org.scalacheck.Arbitrary
 
 object eq {

@@ -21,10 +21,10 @@
 
 package algebra.laws
 
-import cats.kernel._
-import org.scalacheck.Prop._
+import cats.kernel.*
+import org.scalacheck.Prop.*
 import org.scalacheck.{Arbitrary, Prop}
-import cats.kernel.instances.all._
+import cats.kernel.instances.all.*
 import cats.kernel.laws.discipline.SerializableTests
 
 object Rules {

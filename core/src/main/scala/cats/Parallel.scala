@@ -224,7 +224,7 @@ object Parallel extends ParallelArityFunctions2 {
    * corresponding to the Parallel instance instead.
    */
   def parSequence[T[_]: Traverse, M[_], A](tma: T[M[A]])(implicit P: Parallel[M]): M[T[A]] = {
-    val fta: P.F[T[A]] = Traverse[T].traverse(tma)(P.parallel.apply(_))(P.applicative)
+    val fta: P.F[T[A]] = Traverse[T].traverse(tma)(P.parallel.apply(_))(using P.applicative)
     P.sequential(fta)
   }
 
@@ -233,7 +233,7 @@ object Parallel extends ParallelArityFunctions2 {
    * corresponding to the Parallel instance instead.
    */
   def parTraverse[T[_]: Traverse, M[_], A, B](ta: T[A])(f: A => M[B])(implicit P: Parallel[M]): M[T[B]] = {
-    val gtb: P.F[T[B]] = Traverse[T].traverse(ta)(a => P.parallel(f(a)))(P.applicative)
+    val gtb: P.F[T[B]] = Traverse[T].traverse(ta)(a => P.parallel(f(a)))(using P.applicative)
     P.sequential(gtb)
   }
 
@@ -260,24 +260,38 @@ object Parallel extends ParallelArityFunctions2 {
   }
 
   /**
-   * Like `Foldable[A].sequence_`, but uses the applicative instance
+   * Like `Foldable[A].sequenceVoid`, but uses the applicative instance
    * corresponding to the Parallel instance instead.
    */
-  def parSequence_[T[_]: Foldable, M[_], A](tma: T[M[A]])(implicit P: Parallel[M]): M[Unit] = {
-    val fu: P.F[Unit] = Foldable[T].traverse_(tma)(P.parallel.apply(_))(P.applicative)
+  def parSequenceVoid[T[_]: Foldable, M[_], A](tma: T[M[A]])(implicit P: Parallel[M]): M[Unit] = {
+    val fu: P.F[Unit] = Foldable[T].traverseVoid(tma)(P.parallel.apply(_))(P.applicative)
     P.sequential(fu)
   }
 
   /**
-   * Like `Foldable[A].traverse_`, but uses the applicative instance
+   * Alias for `parSequenceVoid`.
+   *
+   * @deprecated this method should be considered as deprecated and replaced by `parSequenceVoid`.
+   */
+  def parSequence_[T[_]: Foldable, M[_], A](tma: T[M[A]])(implicit P: Parallel[M]): M[Unit] =
+    parSequenceVoid(tma)
+
+  /**
+   * Like `Foldable[A].traverseVoid`, but uses the applicative instance
    * corresponding to the Parallel instance instead.
    */
-  def parTraverse_[T[_]: Foldable, M[_], A, B](
-    ta: T[A]
-  )(f: A => M[B])(implicit P: Parallel[M]): M[Unit] = {
-    val gtb: P.F[Unit] = Foldable[T].traverse_(ta)(a => P.parallel(f(a)))(P.applicative)
+  def parTraverseVoid[T[_]: Foldable, M[_], A, B](ta: T[A])(f: A => M[B])(implicit P: Parallel[M]): M[Unit] = {
+    val gtb: P.F[Unit] = Foldable[T].traverseVoid(ta)(a => P.parallel(f(a)))(P.applicative)
     P.sequential(gtb)
   }
+
+  /**
+   * Alias for `parTraverseVoid`.
+   *
+   * @deprecated this method should be considered as deprecated and replaced by `parTraverseVoid`.
+   */
+  def parTraverse_[T[_]: Foldable, M[_], A, B](ta: T[A])(f: A => M[B])(implicit P: Parallel[M]): M[Unit] =
+    parTraverseVoid(ta)(f)
 
   def parUnorderedTraverse[T[_]: UnorderedTraverse, M[_], F[_]: CommutativeApplicative, A, B](
     ta: T[A]
@@ -306,7 +320,7 @@ object Parallel extends ParallelArityFunctions2 {
   def parNonEmptySequence[T[_]: NonEmptyTraverse, M[_], A](
     tma: T[M[A]]
   )(implicit P: NonEmptyParallel[M]): M[T[A]] = {
-    val fta: P.F[T[A]] = NonEmptyTraverse[T].nonEmptyTraverse(tma)(P.parallel.apply(_))(P.apply)
+    val fta: P.F[T[A]] = NonEmptyTraverse[T].nonEmptyTraverse(tma)(P.parallel.apply(_))(using P.apply)
     P.sequential(fta)
   }
 
@@ -317,7 +331,7 @@ object Parallel extends ParallelArityFunctions2 {
   def parNonEmptyTraverse[T[_]: NonEmptyTraverse, M[_], A, B](
     ta: T[A]
   )(f: A => M[B])(implicit P: NonEmptyParallel[M]): M[T[B]] = {
-    val gtb: P.F[T[B]] = NonEmptyTraverse[T].nonEmptyTraverse(ta)(a => P.parallel(f(a)))(P.apply)
+    val gtb: P.F[T[B]] = NonEmptyTraverse[T].nonEmptyTraverse(ta)(a => P.parallel(f(a)))(using P.apply)
     P.sequential(gtb)
   }
 
@@ -345,26 +359,46 @@ object Parallel extends ParallelArityFunctions2 {
   }
 
   /**
-   * Like `Reducible[A].nonEmptySequence_`, but uses the apply instance
+   * Like `Reducible[A].nonEmptySequenceVoid`, but uses the apply instance
    * corresponding to the Parallel instance instead.
    */
-  def parNonEmptySequence_[T[_]: Reducible, M[_], A](
+  def parNonEmptySequenceVoid[T[_]: Reducible, M[_], A](
     tma: T[M[A]]
   )(implicit P: NonEmptyParallel[M]): M[Unit] = {
-    val fu: P.F[Unit] = Reducible[T].nonEmptyTraverse_(tma)(P.parallel.apply(_))(P.apply)
+    val fu: P.F[Unit] = Reducible[T].nonEmptyTraverseVoid(tma)(P.parallel.apply(_))(P.apply)
     P.sequential(fu)
   }
 
   /**
-   * Like `Reducible[A].nonEmptyTraverse_`, but uses the apply instance
+   * Alias for `parNonEmptySequenceVoid`.
+   *
+   * @deprecated this method should be considered as deprecated and replaced by `parNonEmptySequenceVoid`.
+   */
+  def parNonEmptySequence_[T[_]: Reducible, M[_], A](
+    tma: T[M[A]]
+  )(implicit P: NonEmptyParallel[M]): M[Unit] =
+    parNonEmptySequenceVoid[T, M, A](tma)
+
+  /**
+   * Like `Reducible[A].nonEmptyTraverseVoid`, but uses the apply instance
    * corresponding to the Parallel instance instead.
+   */
+  def parNonEmptyTraverseVoid[T[_]: Reducible, M[_], A, B](
+    ta: T[A]
+  )(f: A => M[B])(implicit P: NonEmptyParallel[M]): M[Unit] = {
+    val gtb: P.F[Unit] = Reducible[T].nonEmptyTraverseVoid(ta)(a => P.parallel(f(a)))(P.apply)
+    P.sequential(gtb)
+  }
+
+  /**
+   * Alias for `parNonEmptyTraverseVoid`.
+   *
+   * @deprecated this method should be considered as deprecated and replaced by `parNonEmptyTraverseVoid`.
    */
   def parNonEmptyTraverse_[T[_]: Reducible, M[_], A, B](
     ta: T[A]
-  )(f: A => M[B])(implicit P: NonEmptyParallel[M]): M[Unit] = {
-    val gtb: P.F[Unit] = Reducible[T].nonEmptyTraverse_(ta)(a => P.parallel(f(a)))(P.apply)
-    P.sequential(gtb)
-  }
+  )(f: A => M[B])(implicit P: NonEmptyParallel[M]): M[Unit] =
+    parNonEmptyTraverseVoid[T, M, A, B](ta)(f)
 
   /**
    * Like `Bitraverse[A].bitraverse`, but uses the applicative instance
@@ -374,7 +408,7 @@ object Parallel extends ParallelArityFunctions2 {
     tab: T[A, B]
   )(f: A => M[C], g: B => M[D])(implicit P: Parallel[M]): M[T[C, D]] = {
     val ftcd: P.F[T[C, D]] =
-      Bitraverse[T].bitraverse(tab)(a => P.parallel(f(a)), b => P.parallel(g(b)))(P.applicative)
+      Bitraverse[T].bitraverse(tab)(a => P.parallel(f(a)), b => P.parallel(g(b)))(using P.applicative)
     P.sequential(ftcd)
   }
 
@@ -385,7 +419,8 @@ object Parallel extends ParallelArityFunctions2 {
   def parBisequence[T[_, _]: Bitraverse, M[_], A, B](
     tmamb: T[M[A], M[B]]
   )(implicit P: Parallel[M]): M[T[A, B]] = {
-    val ftab: P.F[T[A, B]] = Bitraverse[T].bitraverse(tmamb)(P.parallel.apply(_), P.parallel.apply(_))(P.applicative)
+    val ftab: P.F[T[A, B]] =
+      Bitraverse[T].bitraverse(tmamb)(P.parallel.apply(_), P.parallel.apply(_))(using P.applicative)
     P.sequential(ftab)
   }
 
@@ -397,7 +432,7 @@ object Parallel extends ParallelArityFunctions2 {
     tab: T[A, B]
   )(f: A => M[C])(implicit P: Parallel[M]): M[T[C, B]] = {
     val ftcb: P.F[T[C, B]] =
-      Bitraverse[T].bitraverse(tab)(a => P.parallel.apply(f(a)), P.applicative.pure(_))(P.applicative)
+      Bitraverse[T].bitraverse(tab)(a => P.parallel.apply(f(a)), P.applicative.pure(_))(using P.applicative)
     P.sequential(ftcb)
   }
 
@@ -408,7 +443,8 @@ object Parallel extends ParallelArityFunctions2 {
   def parLeftSequence[T[_, _]: Bitraverse, M[_], A, B](
     tmab: T[M[A], B]
   )(implicit P: Parallel[M]): M[T[A, B]] = {
-    val ftab: P.F[T[A, B]] = Bitraverse[T].bitraverse(tmab)(P.parallel.apply(_), P.applicative.pure(_))(P.applicative)
+    val ftab: P.F[T[A, B]] =
+      Bitraverse[T].bitraverse(tmab)(P.parallel.apply(_), P.applicative.pure(_))(using P.applicative)
     P.sequential(ftab)
   }
 

@@ -23,8 +23,8 @@ package cats
 package laws
 package discipline
 
-import cats.instances.OptionI._
-import cats.instances.LongI._
+import cats.instances.OptionI.*
+import cats.instances.LongI.*
 import cats.kernel.CommutativeMonoid
 import org.scalacheck.{Arbitrary, Cogen}
 import org.scalacheck.Prop.forAll
@@ -58,8 +58,8 @@ trait ReducibleTests[F[_]] extends FoldableTests[F] {
         forAll(laws.reduceRightConsistentWithReduceRightOption[A] _),
       "reduce consistent with reduceLeft" ->
         forAll(laws.reduceReduceLeftConsistent[B] _),
-      "nonEmptyTraverse_ consistent with traverse_" -> forAll(laws.traverseConsistent[G, A, B] _),
-      "nonEmptySequence_ consistent with sequence_" -> forAll(laws.sequenceConsistent[G, A] _),
+      "nonEmptyTraverseVoid consistent with traverseVoid" -> forAll(laws.traverseConsistent[G, A, B] _),
+      "nonEmptySequenceVoid consistent with sequenceVoid" -> forAll(laws.sequenceConsistent[G, A] _),
       "size consistent with reduceMap" -> forAll(laws.sizeConsistent[A] _)
     )
 }

@@ -24,7 +24,7 @@ package laws
 package discipline
 
 import cats.kernel.{BoundedSemilattice, CommutativeGroup, CommutativeMonoid}
-import cats.instances.IntI._
+import cats.instances.IntI.*
 
 /**
  * Similar to `Int`, but with a much smaller domain. The exact range of [[MiniInt]] may be tuned from time to time, so
@@ -34,7 +34,7 @@ import cats.instances.IntI._
  * and multiplication are commutative and associative.
  */
 final class MiniInt private (val intBits: Int) extends AnyVal with Serializable {
-  import MiniInt._
+  import MiniInt.*
 
   def unary_- : MiniInt = this * negativeOne
 
@@ -72,7 +72,7 @@ object MiniInt {
 
   val allValues: List[MiniInt] = (minIntValue to maxIntValue).map(unsafeFromInt).toList
 
-  implicit val catsLawsEqInstancesForMiniInt: Order[MiniInt] with Hash[MiniInt] =
+  implicit val catsLawsEqInstancesForMiniInt: Order[MiniInt] & Hash[MiniInt] =
     new Order[MiniInt] with Hash[MiniInt] {
       def hash(x: MiniInt): Int = Hash[Int].hash(x.intBits)
 

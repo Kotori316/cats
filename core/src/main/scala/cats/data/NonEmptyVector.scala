@@ -24,7 +24,7 @@ package data
 
 import cats.data.NonEmptyVector.ZipNonEmptyVector
 import cats.instances.StaticMethods
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 
 import scala.annotation.tailrec
 import scala.collection.mutable
@@ -249,18 +249,21 @@ final class NonEmptyVector[+A] private (val toVector: Vector[A])
   override def distinct[AA >: A](implicit O: Order[AA]): NonEmptyVector[AA] = distinctBy(identity[AA])
 
   override def distinctBy[B](f: A => B)(implicit O: Order[B]): NonEmptyVector[A] = {
-    implicit val ord: Ordering[B] = O.toOrdering
+    if (toVector.lengthCompare(1) == 0) this
+    else {
+      implicit val ord: Ordering[B] = O.toOrdering
 
-    val buf = Vector.newBuilder[A]
-    tail.foldLeft(TreeSet(f(head): B)) { (elementsSoFar, a) =>
-      val b = f(a)
-      if (elementsSoFar(b)) elementsSoFar
-      else {
-        buf += a; elementsSoFar + b
+      val bldr = Vector.newBuilder[A]
+      val seen = mutable.TreeSet.empty[B]
+      val it = iterator
+      while (it.hasNext) {
+        val next = it.next()
+        if (seen.add(f(next)))
+          bldr += next
       }
-    }
 
-    NonEmptyVector(head, buf.result())
+      NonEmptyVector.fromVectorUnsafe(bldr.result())
+    }
   }
 
   /**
@@ -393,10 +396,8 @@ sealed abstract private[data] class NonEmptyVectorInstances extends NonEmptyVect
     "maintained for the sake of binary compatibility only - use catsDataInstancesForNonEmptyChainBinCompat1 instead",
     "2.9.0"
   )
-  def catsDataInstancesForNonEmptyVector: SemigroupK[NonEmptyVector]
-    with Bimonad[NonEmptyVector]
-    with NonEmptyTraverse[NonEmptyVector]
-    with Align[NonEmptyVector] =
+  def catsDataInstancesForNonEmptyVector
+    : SemigroupK[NonEmptyVector] & Bimonad[NonEmptyVector] & NonEmptyTraverse[NonEmptyVector] & Align[NonEmptyVector] =
     catsDataInstancesForNonEmptyVectorBinCompat1
 
   /**
@@ -405,10 +406,10 @@ sealed abstract private[data] class NonEmptyVectorInstances extends NonEmptyVect
    *
    * Also see the discussion: PR #3541 and issue #3069.
    */
-  implicit val catsDataInstancesForNonEmptyVectorBinCompat1: NonEmptyAlternative[NonEmptyVector]
-    with Bimonad[NonEmptyVector]
-    with NonEmptyTraverse[NonEmptyVector]
-    with Align[NonEmptyVector] =
+  implicit val catsDataInstancesForNonEmptyVectorBinCompat1
+    : NonEmptyAlternative[NonEmptyVector] & Bimonad[NonEmptyVector] & NonEmptyTraverse[NonEmptyVector] & Align[
+      NonEmptyVector
+    ] =
     new NonEmptyReducible[NonEmptyVector, Vector]
       with NonEmptyAlternative[NonEmptyVector]
       with Bimonad[NonEmptyVector]

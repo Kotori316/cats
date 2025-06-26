@@ -25,13 +25,13 @@ import cats.{SemigroupK, Semigroupal, Show}
 import cats.kernel.{Order, PartialOrder}
 import cats.kernel.laws.discipline.{BoundedSemilatticeTests, HashTests, OrderTests, PartialOrderTests}
 import cats.kernel.{BoundedSemilattice, Semilattice}
-import cats.laws._
+import cats.laws.*
 import cats.laws.discipline.SemigroupalTests.Isomorphisms
-import cats.laws.discipline.arbitrary._
+import cats.laws.discipline.arbitrary.*
 import cats.laws.discipline.{FoldableTests, SemigroupKTests, SemigroupalTests, SerializableTests, ShortCircuitingTests}
-import cats.syntax.show._
+import cats.syntax.show.*
 import scala.collection.immutable.SortedSet
-import cats.syntax.eq._
+import cats.syntax.eq.*
 
 class SortedSetSuite extends CatsSuite {
   implicit val iso: Isomorphisms[SortedSet] = SortedSetIsomorphism
@@ -43,14 +43,14 @@ class SortedSetSuite extends CatsSuite {
 
   checkAll("SortedSet[Int]", FoldableTests[SortedSet].foldable[Int, Int])
   checkAll("Order[SortedSet[Int]]", OrderTests[SortedSet[Int]].order)
-  checkAll("Order.reverse(Order[SortedSet[Int]])", OrderTests(Order.reverse(Order[SortedSet[Int]])).order)
+  checkAll("Order.reverse(Order[SortedSet[Int]])", OrderTests(using Order.reverse(Order[SortedSet[Int]])).order)
   checkAll("PartialOrder[SortedSet[Int]]", PartialOrderTests[SortedSet[Int]].partialOrder)
   checkAll("PartialOrder.reverse(PartialOrder[SortedSet[Int]])",
-           PartialOrderTests(PartialOrder.reverse(PartialOrder[SortedSet[Int]])).partialOrder
+           PartialOrderTests(using PartialOrder.reverse(PartialOrder[SortedSet[Int]])).partialOrder
   )
   checkAll(
     "PartialOrder.reverse(PartialOrder.reverse(PartialOrder[SortedSet[Int]]))",
-    PartialOrderTests(PartialOrder.reverse(PartialOrder.reverse(PartialOrder[SortedSet[Int]]))).partialOrder
+    PartialOrderTests(using PartialOrder.reverse(PartialOrder.reverse(PartialOrder[SortedSet[Int]]))).partialOrder
   )
 
   checkAll("BoundedSemilattice[SortedSet[String]]", BoundedSemilatticeTests[SortedSet[String]].boundedSemilattice)
@@ -59,10 +59,10 @@ class SortedSetSuite extends CatsSuite {
   )
 
   checkAll("Semilattice.asMeetPartialOrder[SortedSet[Int]]",
-           PartialOrderTests(Semilattice.asMeetPartialOrder[SortedSet[Int]]).partialOrder
+           PartialOrderTests(using Semilattice.asMeetPartialOrder[SortedSet[Int]]).partialOrder
   )
   checkAll("Semilattice.asJoinPartialOrder[SortedSet[Int]]",
-           PartialOrderTests(Semilattice.asJoinPartialOrder[SortedSet[Int]]).partialOrder
+           PartialOrderTests(using Semilattice.asJoinPartialOrder[SortedSet[Int]]).partialOrder
   )
   checkAll("Hash[SortedSet[Int]]", HashTests[SortedSet[Int]].hash)
 

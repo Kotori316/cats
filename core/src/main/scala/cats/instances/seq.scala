@@ -24,7 +24,7 @@ package instances
 
 import cats.data.{Chain, Ior, ZipSeq}
 import cats.instances.StaticMethods.appendAll
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 
 import scala.annotation.tailrec
 import scala.collection.mutable
@@ -32,8 +32,7 @@ import scala.collection.immutable.Seq
 
 @suppressUnusedImportWarningForScalaVersionSpecific
 trait SeqInstances extends cats.kernel.instances.SeqInstances {
-  implicit val catsStdInstancesForSeq
-    : Traverse[Seq] with Monad[Seq] with Alternative[Seq] with CoflatMap[Seq] with Align[Seq] =
+  implicit val catsStdInstancesForSeq: Traverse[Seq] & Monad[Seq] & Alternative[Seq] & CoflatMap[Seq] & Align[Seq] =
     new Traverse[Seq] with Monad[Seq] with Alternative[Seq] with CoflatMap[Seq] with Align[Seq] {
 
       def empty[A]: Seq[A] = Seq.empty[A]
@@ -134,9 +133,9 @@ trait SeqInstances extends cats.kernel.instances.SeqInstances {
             G.map(Chain.traverseViaChain(fa.toIndexedSeq)(f))(_.toList)
         }
 
-      override def traverse_[G[_], A, B](fa: Seq[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] =
+      override def traverseVoid[G[_], A, B](fa: Seq[A])(f: A => G[B])(implicit G: Applicative[G]): G[Unit] =
         G match {
-          case x: StackSafeMonad[G] => Traverse.traverse_Directly(fa)(f)(x)
+          case x: StackSafeMonad[G] => Traverse.traverseVoidDirectly(fa)(f)(x)
           case _ =>
             foldRight(fa, Eval.now(G.unit)) { (a, acc) =>
               G.map2Eval(f(a), acc) { (_, _) =>

@@ -19,13 +19,15 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cats.tests
+package cats
+package tests
 
-import cats._
-import cats.kernel.compat.scalaVersionSpecific._
-import cats.syntax.all._
+import cats.data.Chain
+import cats.kernel.compat.scalaVersionSpecific.*
+import cats.laws.discipline.arbitrary.*
+import cats.syntax.all.*
 import org.scalacheck.Arbitrary
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.*
 
 @suppressUnusedImportWarningForScalaVersionSpecific
 abstract class TraverseSuite[F[_]: Traverse](name: String)(implicit ArbFInt: Arbitrary[F[Int]]) extends CatsSuite {
@@ -83,9 +85,9 @@ abstract class TraverseSuite[F[_]: Traverse](name: String)(implicit ArbFInt: Arb
     }
   }
 
-  test(s"Traverse[$name].traverse matches traverse_ with Option") {
+  test(s"Traverse[$name].traverse matches traverseVoid with Option") {
     forAll { (fa: F[Int], fn: Int => Option[Int]) =>
-      assert(Applicative[Option].void(fa.traverse(fn)) == fa.traverse_(fn))
+      assert(Applicative[Option].void(fa.traverse(fn)) == fa.traverseVoid(fn))
     }
   }
 
@@ -102,7 +104,7 @@ abstract class TraverseSuite[F[_]: Traverse](name: String)(implicit ArbFInt: Arb
 object TraverseSuite {
   // forces testing of the underlying implementation (avoids overridden methods)
   abstract class Underlying[F[_]: Traverse](name: String)(implicit ArbFInt: Arbitrary[F[Int]])
-      extends TraverseSuite(s"$name (underlying)")(proxyTraverse[F], ArbFInt)
+      extends TraverseSuite(s"$name (underlying)")(using proxyTraverse[F], ArbFInt)
 
   // proxies a traverse instance so we can test default implementations
   // to achieve coverage using default datatype instances
@@ -119,6 +121,7 @@ object TraverseSuite {
 
 class TraverseListSuite extends TraverseSuite[List]("List")
 class TraverseVectorSuite extends TraverseSuite[Vector]("Vector")
+class TraverseChainSuite extends TraverseSuite[Chain]("Chain")
 
 @annotation.nowarn("cat=deprecation")
 class TraverseStreamSuite extends TraverseSuite[Stream]("Stream")

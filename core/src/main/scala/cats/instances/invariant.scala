@@ -21,8 +21,8 @@
 
 package cats.instances
 
-import cats.kernel._
-import cats.kernel.instances.all._
+import cats.kernel.*
+import cats.kernel.instances.all.*
 import cats.{Invariant, InvariantMonoidal, InvariantSemigroupal, Monoid}
 
 trait InvariantMonoidalInstances {

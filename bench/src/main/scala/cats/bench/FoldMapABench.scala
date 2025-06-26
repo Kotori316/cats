@@ -22,11 +22,11 @@
 package cats.bench
 
 import cats.Applicative
-import cats.instances.EitherI._
-import cats.instances.IntI._
-import cats.instances.VectorI._
+import cats.instances.EitherI.*
+import cats.instances.IntI.*
+import cats.instances.VectorI.*
 import cats.kernel.Monoid
-import cats.syntax.foldable._
+import cats.syntax.foldable.*
 import org.openjdk.jmh.annotations.{Benchmark, Scope, State}
 
 @State(Scope.Benchmark)

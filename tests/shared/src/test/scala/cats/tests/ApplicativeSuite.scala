@@ -24,13 +24,13 @@ package cats.tests
 import cats.data.{Const, State, Validated}
 import cats.kernel.Monoid
 import cats.kernel.laws.discipline.{MonoidTests, SemigroupTests}
-import cats.laws.discipline.arbitrary._
+import cats.laws.discipline.arbitrary.*
 import cats.laws.discipline.{AlignTests, CoflatMapTests}
-import cats.syntax.applicative._
-import cats.syntax.eq._
-import cats.syntax.functor._
+import cats.syntax.applicative.*
+import cats.syntax.eq.*
+import cats.syntax.functor.*
 import cats.{Align, Applicative, Apply, CoflatMap}
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.*
 
 class ApplicativeSuite extends CatsSuite {
 
@@ -90,12 +90,12 @@ class ApplicativeSuite extends CatsSuite {
 
   {
     implicit val optionMonoid: Monoid[Option[Int]] = Applicative.monoid[Option, Int]
-    checkAll("Applicative[Option].monoid", MonoidTests[Option[Int]](optionMonoid).monoid)
+    checkAll("Applicative[Option].monoid", MonoidTests[Option[Int]](using optionMonoid).monoid)
   }
 
   {
     val optionSemigroupFromApply = Apply.semigroup[Option, Int]
-    checkAll("Apply[Option].semigroup", SemigroupTests[Option[Int]](optionSemigroupFromApply).semigroup)
+    checkAll("Apply[Option].semigroup", SemigroupTests[Option[Int]](using optionSemigroupFromApply).semigroup)
   }
 
   {

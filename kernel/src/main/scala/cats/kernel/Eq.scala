@@ -21,7 +21,7 @@
 
 package cats.kernel
 
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 
 import java.util.UUID
 import scala.collection.immutable.{BitSet, Queue, Seq, SortedMap, SortedSet}
@@ -149,43 +149,43 @@ object Eq
         }
     }
 
-  implicit def catsKernelInstancesForBitSet: PartialOrder[BitSet] with Hash[BitSet] =
+  implicit def catsKernelInstancesForBitSet: PartialOrder[BitSet] & Hash[BitSet] =
     cats.kernel.instances.all.catsKernelStdOrderForBitSet
   implicit def catsKernelPartialOrderForSet[A]: PartialOrder[Set[A]] =
     cats.kernel.instances.all.catsKernelStdPartialOrderForSet[A]
   implicit def catsKernelOrderForEither[A: Order, B: Order]: Order[Either[A, B]] =
     cats.kernel.instances.all.catsStdOrderForEither[A, B]
 
-  implicit def catsKernelInstancesForUnit: Order[Unit] with Hash[Unit] =
+  implicit def catsKernelInstancesForUnit: Order[Unit] & Hash[Unit] =
     cats.kernel.instances.all.catsKernelStdOrderForUnit
-  implicit def catsKernelInstancesForBoolean: Order[Boolean] with Hash[Boolean] =
+  implicit def catsKernelInstancesForBoolean: Order[Boolean] & Hash[Boolean] =
     cats.kernel.instances.all.catsKernelStdOrderForBoolean
-  implicit def catsKernelInstancesForByte: Order[Byte] with Hash[Byte] =
+  implicit def catsKernelInstancesForByte: Order[Byte] & Hash[Byte] =
     cats.kernel.instances.all.catsKernelStdOrderForByte
-  implicit def catsKernelInstancesForShort: Order[Short] with Hash[Short] =
+  implicit def catsKernelInstancesForShort: Order[Short] & Hash[Short] =
     cats.kernel.instances.all.catsKernelStdOrderForShort
-  implicit def catsKernelInstancesForInt: Order[Int] with Hash[Int] = cats.kernel.instances.all.catsKernelStdOrderForInt
-  implicit def catsKernelInstancesForLong: Order[Long] with Hash[Long] =
+  implicit def catsKernelInstancesForInt: Order[Int] & Hash[Int] = cats.kernel.instances.all.catsKernelStdOrderForInt
+  implicit def catsKernelInstancesForLong: Order[Long] & Hash[Long] =
     cats.kernel.instances.all.catsKernelStdOrderForLong
-  implicit def catsKernelInstancesForBigInt: Order[BigInt] with Hash[BigInt] =
+  implicit def catsKernelInstancesForBigInt: Order[BigInt] & Hash[BigInt] =
     cats.kernel.instances.all.catsKernelStdOrderForBigInt
-  implicit def catsKernelInstancesForBigDecimal: Order[BigDecimal] with Hash[BigDecimal] =
+  implicit def catsKernelInstancesForBigDecimal: Order[BigDecimal] & Hash[BigDecimal] =
     cats.kernel.instances.all.catsKernelStdOrderForBigDecimal
-  implicit def catsKernelInstancesForDuration: Order[Duration] with Hash[Duration] =
+  implicit def catsKernelInstancesForDuration: Order[Duration] & Hash[Duration] =
     cats.kernel.instances.all.catsKernelStdOrderForDuration
-  implicit def catsKernelInstancesForFiniteDuration: Order[FiniteDuration] with Hash[FiniteDuration] =
+  implicit def catsKernelInstancesForFiniteDuration: Order[FiniteDuration] & Hash[FiniteDuration] =
     cats.kernel.instances.all.catsKernelStdOrderForFiniteDuration
-  implicit def catsKernelInstancesForChar: Order[Char] with Hash[Char] =
+  implicit def catsKernelInstancesForChar: Order[Char] & Hash[Char] =
     cats.kernel.instances.all.catsKernelStdOrderForChar
-  implicit def catsKernelInstancesForSymbol: Order[Symbol] with Hash[Symbol] =
+  implicit def catsKernelInstancesForSymbol: Order[Symbol] & Hash[Symbol] =
     cats.kernel.instances.all.catsKernelStdOrderForSymbol
-  implicit def catsKernelInstancesForString: Order[String] with Hash[String] =
+  implicit def catsKernelInstancesForString: Order[String] & Hash[String] =
     cats.kernel.instances.all.catsKernelStdOrderForString
-  implicit def catsKernelInstancesForUUID: Order[UUID] with Hash[UUID] =
+  implicit def catsKernelInstancesForUUID: Order[UUID] & Hash[UUID] =
     cats.kernel.instances.all.catsKernelStdOrderForUUID
-  implicit def catsKernelInstancesForDouble: Order[Double] with Hash[Double] =
+  implicit def catsKernelInstancesForDouble: Order[Double] & Hash[Double] =
     cats.kernel.instances.all.catsKernelStdOrderForDouble
-  implicit def catsKernelInstancesForFloat: Order[Float] with Hash[Float] =
+  implicit def catsKernelInstancesForFloat: Order[Float] & Hash[Float] =
     cats.kernel.instances.all.catsKernelStdOrderForFloat
 
   implicit def catsKernelOrderForOption[A: Order]: Order[Option[A]] =
@@ -256,7 +256,7 @@ private[kernel] trait HashInstances extends HashInstances0 {
   implicit def catsKernelHashForQueue[A: Hash]: Hash[Queue[A]] =
     cats.kernel.instances.all.catsKernelStdHashForQueue[A]
   implicit def catsKernelHashForSortedSet[A: Hash]: Hash[SortedSet[A]] =
-    cats.kernel.instances.all.catsKernelStdHashForSortedSet[A](Hash[A])
+    cats.kernel.instances.all.catsKernelStdHashForSortedSet[A](using Hash[A])
   implicit def catsKernelHashForFunction0[A: Hash]: Hash[() => A] =
     cats.kernel.instances.all.catsKernelHashForFunction0[A]
   implicit def catsKernelHashForMap[K: Hash, V: Hash]: Hash[Map[K, V]] =

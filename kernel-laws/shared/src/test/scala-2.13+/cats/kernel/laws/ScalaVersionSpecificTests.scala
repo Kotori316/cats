@@ -22,7 +22,7 @@
 package cats.kernel
 package laws
 
-import cats.kernel.instances.all._
+import cats.kernel.instances.all.*
 import cats.kernel.laws.discipline.{EqTests, HashTests, MonoidTests, OrderTests, PartialOrderTests, SerializableTests}
 
 trait ScalaVersionSpecificTests { this: Tests =>

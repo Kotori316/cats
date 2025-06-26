@@ -22,7 +22,9 @@
 package alleycats
 
 import cats.{Eq, Monoid}
-import cats.syntax.eq._
+import cats.syntax.eq.*
+
+import scala.collection.immutable.SortedMap
 
 trait Empty[A] extends Serializable {
   def empty: A
@@ -37,8 +39,6 @@ trait Empty[A] extends Serializable {
 object Empty extends EmptyInstances0 {
   def apply[A](a: => A): Empty[A] =
     new Empty[A] { lazy val empty: A = a }
-
-  def fromEmptyK[F[_], T](implicit ekf: EmptyK[F]): Empty[F[T]] = ekf.synthesize[T]
 
   /**
    * Summon an instance of [[Empty]] for `A`.
@@ -79,10 +79,24 @@ object Empty extends EmptyInstances0 {
 
 }
 
-private[alleycats] trait EmptyInstances0 extends compat.IterableEmptyInstance with EmptyInstances1
+private[alleycats] trait EmptyInstances0 extends compat.IterableEmptyInstance with EmptyInstances1 {
 
-private[alleycats] trait EmptyInstances1 {
+  private[this] val emptyOptionSingleton: Empty[Option[Nothing]] = Empty(None)
+  implicit def alleycatsEmptyForOption[A]: Empty[Option[A]] = emptyOptionSingleton.asInstanceOf[Empty[Option[A]]]
+
+  private[this] val emptyMapSingleton: Empty[Map[Nothing, Nothing]] = Empty(Map.empty)
+  implicit def alleycatsEmptyForMap[A, B]: Empty[Map[A, B]] = emptyMapSingleton.asInstanceOf[Empty[Map[A, B]]]
+
+  implicit def alleycatsEmptyForSortedMap[A: Ordering, B]: Empty[SortedMap[A, B]] =
+    Empty(SortedMap.empty[A, B])
+}
+
+private[alleycats] trait EmptyInstances1 extends EmptyInstances2 {
   // If Monoid extended Empty then this could be an exported subclass instance provided by Monoid
   implicit def monoidIsEmpty[A: Monoid]: Empty[A] =
     Empty(Monoid[A].empty)
+}
+
+private[alleycats] trait EmptyInstances2 {
+  implicit def fromEmptyK[F[_], T](implicit ekf: EmptyK[F]): Empty[F[T]] = ekf.synthesize[T]
 }

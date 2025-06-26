@@ -23,15 +23,15 @@ package cats.tests
 
 import cats.Bifoldable
 import cats.laws.discipline.{BifoldableTests, SerializableTests}
-import cats.syntax.either._
-import cats.syntax.eq._
+import cats.syntax.either.*
+import cats.syntax.eq.*
 
 class BifoldableSuite extends CatsSuite {
   type EitherEither[A, B] = Either[Either[A, B], Either[A, B]]
   val eitherComposeEither: Bifoldable[EitherEither] =
     Bifoldable[Either].compose[Either]
 
-  checkAll("Either compose Either", BifoldableTests(eitherComposeEither).bifoldable[Int, Int, Int])
+  checkAll("Either compose Either", BifoldableTests(using eitherComposeEither).bifoldable[Int, Int, Int])
   checkAll("Bifoldable[Either compose Either]", SerializableTests.serializable(eitherComposeEither))
 
   test("bifold works for 2 monoids") {

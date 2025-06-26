@@ -1,23 +1,23 @@
-ThisBuild / tlBaseVersion := "2.12"
-ThisBuild / version := "2.12.1-kotori"
+ThisBuild / tlBaseVersion := "2.13"
+ThisBuild / version := "2.13.0-kotori"
 
-val scalaCheckVersion = "1.18.0"
+val scalaCheckVersion = "1.18.1"
 
 val disciplineVersion = "1.7.0"
 
 val disciplineMunitVersion = "2.0.0"
 
-val munitVersion = "1.0.2"
+val munitVersion = "1.1.1"
 
 val PrimaryJava = JavaSpec.temurin("8")
 val LTSJava = JavaSpec.temurin("17")
-val GraalVM = JavaSpec.graalvm("17")
+val GraalVM = JavaSpec.graalvm("21")
 
 ThisBuild / githubWorkflowJavaVersions := Seq(PrimaryJava, LTSJava, GraalVM)
 
 val Scala212 = "2.12.20"
-val Scala213 = "2.13.14"
-val Scala3 = "3.3.3"
+val Scala213 = "2.13.16"
+val Scala3 = "3.3.6"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213, Scala3)
 ThisBuild / scalaVersion := Scala213
@@ -153,7 +153,7 @@ lazy val algebra = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Pure)
   .in(file("algebra-core"))
   .dependsOn(kernel)
-  .settings(moduleName := "algebra", name := "Cats algebra", scalacOptions -= "-Xsource:3")
+  .settings(moduleName := "algebra", name := "Cats algebra")
   .settings(Compile / sourceGenerators += (Compile / sourceManaged).map(AlgebraBoilerplate.gen).taskValue)
   .jsSettings(commonJsSettings)
   .jvmSettings(commonJvmSettings)
@@ -168,7 +168,7 @@ lazy val algebra = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 lazy val algebraLaws = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("algebra-laws"))
   .dependsOn(kernelLaws, algebra)
-  .settings(moduleName := "algebra-laws", name := "Cats algebra laws", scalacOptions -= "-Xsource:3")
+  .settings(moduleName := "algebra-laws", name := "Cats algebra laws")
   .settings(disciplineDependencies)
   .settings(testingDependencies)
   .jsSettings(commonJsSettings)

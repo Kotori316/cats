@@ -21,19 +21,19 @@
 
 package cats.tests
 
-import cats._
-import cats.arrow._
+import cats.*
+import cats.arrow.*
 import cats.data.{Const, EitherT, Kleisli, Reader, ReaderT}
 import cats.kernel.laws.discipline.{MonoidTests, SemigroupTests}
-import cats.laws.discipline._
-import cats.laws.discipline.arbitrary._
-import cats.laws.discipline.eq._
+import cats.laws.discipline.*
+import cats.laws.discipline.arbitrary.*
+import cats.laws.discipline.eq.*
 import cats.laws.discipline.SemigroupalTests.Isomorphisms
 import cats.laws.discipline.{DeferTests, MonoidKTests, SemigroupKTests}
-import cats.syntax.all._
+import cats.syntax.all.*
 import cats.platform.Platform
 import cats.tests.Helpers.CSemi
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.*
 
 class KleisliSuite extends CatsSuite {
   implicit def kleisliEq[F[_], A, B](implicit ev: Eq[A => F[B]]): Eq[Kleisli[F, A, B]] =
@@ -378,16 +378,16 @@ class KleisliSuite extends CatsSuite {
     assertEquals(program.run(A123), List((1, "2", true)))
   }
 
-  test("traverse_ doesn't stack overflow") {
+  test("traverseVoid doesn't stack overflow") {
     // see: https://github.com/typelevel/cats/issues/3947
-    val resL = (1 to 10000).toList.traverse_(_ => Kleisli.liftF[Id, String, Unit](())).run("")
-    val resV = (1 to 10000).toVector.traverse_(_ => Kleisli.liftF[Id, String, Unit](())).run("")
+    val resL = (1 to 10000).toList.traverseVoid(_ => Kleisli.liftF[Id, String, Unit](())).run("")
+    val resV = (1 to 10000).toVector.traverseVoid(_ => Kleisli.liftF[Id, String, Unit](())).run("")
     assert(resL === resV)
   }
 
-  test("traverse_ doesn't stack overflow with List + Eval") {
+  test("traverseVoid doesn't stack overflow with List + Eval") {
     // see: https://github.com/typelevel/cats/issues/3947
-    (1 to 10000).toList.traverse_(_ => Kleisli.liftF[Eval, String, Unit](Eval.Unit)).run("").value
+    (1 to 10000).toList.traverseVoid(_ => Kleisli.liftF[Eval, String, Unit](Eval.Unit)).run("").value
   }
 
   /**

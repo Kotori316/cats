@@ -24,9 +24,9 @@ package laws
 package discipline
 
 import cats.arrow.ArrowChoice
-import cats.instances.FunctionI._
+import cats.instances.FunctionI.*
 import org.scalacheck.{Arbitrary, Cogen, Prop}
-import Prop._
+import Prop.*
 
 trait ArrowChoiceTests[F[_, _]] extends ArrowTests[F] with ChoiceTests[F] {
   def laws: ArrowChoiceLaws[F]

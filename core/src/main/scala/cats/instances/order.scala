@@ -22,7 +22,7 @@
 package cats
 package instances
 
-import cats.kernel.instances.all._
+import cats.kernel.instances.all.*
 
 import scala.annotation.tailrec
 

@@ -30,14 +30,14 @@ import cats.kernel.laws.discipline.HashTests
 import cats.kernel.laws.discipline.MonoidTests
 import cats.kernel.laws.discipline.OrderTests
 import cats.kernel.laws.discipline.PartialOrderTests
-import cats.laws.discipline._
-import cats.laws.discipline.arbitrary._
-import cats.syntax.eq._
-import cats.syntax.foldable._
-import cats.syntax.semigroup._
+import cats.laws.discipline.*
+import cats.laws.discipline.arbitrary.*
+import cats.syntax.eq.*
+import cats.syntax.foldable.*
+import cats.syntax.semigroup.*
 import org.scalacheck.Arbitrary
 import org.scalacheck.Gen
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.*
 
 class ChainSuite extends CatsSuite {
   checkAll("Chain[Int]", AlternativeTests[Chain].alternative[Int, Int, Int])
@@ -446,6 +446,40 @@ class ChainSuite extends CatsSuite {
   test("foldRight(b)(fn) == toList.foldRight(b)(fn)") {
     forAll { (chain: Chain[Int], init: Long, fn: (Int, Long) => Long) =>
       assert(chain.foldRight(init)(fn) == chain.toList.foldRight(init)(fn))
+    }
+  }
+
+  private val genChainDropTakeArgs =
+    Arbitrary.arbitrary[Chain[Int]].flatMap { chain =>
+      // Bias to values close to the length
+      Gen
+        .oneOf(
+          Gen.choose(Int.MinValue, Int.MaxValue),
+          Gen.choose(-1, chain.length.toInt + 1)
+        )
+        .map((chain, _))
+    }
+
+  test("drop(cnt).toList == toList.drop(cnt)") {
+    forAll(genChainDropTakeArgs) { case (chain: Chain[Int], count: Int) =>
+      assertEquals(chain.drop(count).toList, chain.toList.drop(count))
+    }
+  }
+
+  test("dropRight(cnt).toList == toList.dropRight(cnt)") {
+    forAll(genChainDropTakeArgs) { case (chain: Chain[Int], count: Int) =>
+      assertEquals(chain.dropRight(count).toList, chain.toList.dropRight(count))
+    }
+  }
+  test("take(cnt).toList == toList.take(cnt)") {
+    forAll(genChainDropTakeArgs) { case (chain: Chain[Int], count: Int) =>
+      assertEquals(chain.take(count).toList, chain.toList.take(count))
+    }
+  }
+
+  test("takeRight(cnt).toList == toList.takeRight(cnt)") {
+    forAll(genChainDropTakeArgs) { case (chain: Chain[Int], count: Int) =>
+      assertEquals(chain.takeRight(count).toList, chain.toList.takeRight(count))
     }
   }
 }

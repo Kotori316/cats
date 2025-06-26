@@ -22,10 +22,10 @@
 package cats.bench
 
 import cats.data.Const
-import cats.instances.StringI._
-import cats.instances.ListI._
-import cats.instances.VectorI._
-import cats.instances.OptionI._
+import cats.instances.StringI.*
+import cats.instances.ListI.*
+import cats.instances.VectorI.*
+import cats.instances.OptionI.*
 import cats.{Foldable, Traverse}
 import org.openjdk.jmh.annotations.{Benchmark, Scope, State}
 

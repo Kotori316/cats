@@ -343,18 +343,24 @@ final case class NonEmptyList[+A](head: A, tail: List[A]) extends NonEmptyCollec
   override def distinct[AA >: A](implicit O: Order[AA]): NonEmptyList[AA] = distinctBy(identity[AA])
 
   override def distinctBy[B](f: A => B)(implicit O: Order[B]): NonEmptyList[A] = {
-    implicit val ord: Ordering[B] = O.toOrdering
+    if (tail.isEmpty) this
+    else {
+      implicit val ord: Ordering[B] = O.toOrdering
 
-    val buf = ListBuffer.empty[A]
-    tail.foldLeft(TreeSet(f(head): B)) { (elementsSoFar, a) =>
-      val b = f(a)
-      if (elementsSoFar(b)) elementsSoFar
-      else {
-        buf += a; elementsSoFar + b
+      val bldr = List.newBuilder[A]
+      val seen = mutable.TreeSet.empty[B]
+      var rest = tail
+      seen.add(f(head))
+      while (rest.nonEmpty) {
+        val next = rest.head
+        rest = rest.tail
+        if (seen.add(f(next))) {
+          bldr += next
+        }
       }
-    }
 
-    NonEmptyList(head, buf.toList)
+      NonEmptyList(head, bldr.result())
+    }
   }
 
   /**
@@ -796,7 +802,7 @@ sealed abstract private[data] class NonEmptyListInstances extends NonEmptyListIn
     "2.9.0"
   )
   def catsDataInstancesForNonEmptyList
-    : SemigroupK[NonEmptyList] with Bimonad[NonEmptyList] with NonEmptyTraverse[NonEmptyList] with Align[NonEmptyList] =
+    : SemigroupK[NonEmptyList] & Bimonad[NonEmptyList] & NonEmptyTraverse[NonEmptyList] & Align[NonEmptyList] =
     catsDataInstancesForNonEmptyListBinCompat1
 
   /**
@@ -805,10 +811,10 @@ sealed abstract private[data] class NonEmptyListInstances extends NonEmptyListIn
    *
    * Also see the discussion: PR #3541 and issue #3069.
    */
-  implicit val catsDataInstancesForNonEmptyListBinCompat1: NonEmptyAlternative[NonEmptyList]
-    with Bimonad[NonEmptyList]
-    with NonEmptyTraverse[NonEmptyList]
-    with Align[NonEmptyList] =
+  implicit val catsDataInstancesForNonEmptyListBinCompat1
+    : NonEmptyAlternative[NonEmptyList] & Bimonad[NonEmptyList] & NonEmptyTraverse[NonEmptyList] & Align[
+      NonEmptyList
+    ] =
     new NonEmptyReducible[NonEmptyList, List]
       with NonEmptyAlternative[NonEmptyList]
       with Bimonad[NonEmptyList]

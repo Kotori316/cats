@@ -26,7 +26,7 @@ package discipline
 import cats.data.Nested
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Arbitrary
-import cats.instances.OptionI._
+import cats.instances.OptionI.*
 
 trait TraverseFilterTests[F[_]] extends FunctorFilterTests[F] {
   def laws: TraverseFilterLaws[F]

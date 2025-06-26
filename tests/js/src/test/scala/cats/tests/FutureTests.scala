@@ -26,14 +26,14 @@ import cats.js.instances.Await
 import cats.js.instances.future.futureComonad
 import cats.kernel.Eq
 import cats.kernel.laws.discipline.{MonoidTests => MonoidLawTests, SemigroupTests => SemigroupLawTests}
-import cats.laws.discipline._
-import cats.laws.discipline.arbitrary._
-import cats.syntax.either._
+import cats.laws.discipline.*
+import cats.laws.discipline.arbitrary.*
+import cats.syntax.either.*
 import cats.tests.{CatsSuite, ListWrapper}
 import org.scalacheck.{Arbitrary, Cogen}
 import org.scalacheck.Arbitrary.arbitrary
 import scala.concurrent.{ExecutionContextExecutor, Future}
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 class FutureTests extends CatsSuite {
   // Replaces Scala.js's `JSExecutionContext.runNow`, which is removed in 1.0.
@@ -76,7 +76,7 @@ class FutureTests extends CatsSuite {
     Cogen[Unit].contramap(_ => ())
 
   checkAll("Future[Int]", MonadErrorTests[Future, Throwable].monadError[Int, Int, Int])
-  checkAll("Future[Int]", ComonadTests[Future](comonad).comonad[Int, Int, Int])
+  checkAll("Future[Int]", ComonadTests[Future](using comonad).comonad[Int, Int, Int])
   checkAll("Future", MonadTests[Future].monad[Int, Int, Int])
 
   {

@@ -131,7 +131,7 @@ The [Typelevel Discord](https://discord.gg/XF3CXcMzqD) has \#cats and \#cats-dev
 channels, as well as community channels such as \#beginners.  Please join us!
 
 People are expected to follow the
-[Scala Code of Conduct](https://www.scala-lang.org/conduct/) when
+[Typelevel Code of Conduct](https://typelevel.org/code-of-conduct.html) when
 discussing Cats on GitHub, Discord, or other venues.
 
 We hope that our community will be respectful, helpful, and kind. If
@@ -217,4 +217,4 @@ http://opensource.org/licenses/mit-license.php and also in the
 [COPYING](https://github.com/typelevel/cats/blob/main/COPYING) file. The design is informed by many other
 projects, in particular [Scalaz](https://github.com/scalaz/scalaz).
 
-Copyright the maintainers, 2015-2024.
+Copyright the maintainers, 2015-2025.

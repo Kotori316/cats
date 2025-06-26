@@ -23,7 +23,7 @@ package cats
 package data
 
 import cats.{Contravariant, Id}
-import cats.arrow._
+import cats.arrow.*
 import cats.evidence.As
 
 /**
@@ -389,7 +389,7 @@ sealed abstract private[data] class KleisliInstances0 extends KleisliInstances0_
 
   implicit def catsDataCommutativeArrowForKleisli[F[_]](implicit
     M: CommutativeMonad[F]
-  ): CommutativeArrow[Kleisli[F, *, *]] with ArrowChoice[Kleisli[F, *, *]] =
+  ): CommutativeArrow[Kleisli[F, *, *]] & ArrowChoice[Kleisli[F, *, *]] =
     new KleisliCommutativeArrow[F] { def F: CommutativeMonad[F] = M }
 
   implicit def catsDataCommutativeMonadForKleisli[F[_], A](implicit

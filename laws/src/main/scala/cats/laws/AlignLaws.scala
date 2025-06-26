@@ -22,8 +22,8 @@
 package cats
 package laws
 
-import cats.syntax.align._
-import cats.syntax.functor._
+import cats.syntax.align.*
+import cats.syntax.functor.*
 
 import cats.data.Ior
 import cats.data.Ior.{Both, Left, Right}
@@ -44,6 +44,9 @@ trait AlignLaws[F[_]] {
 
   def alignWithConsistent[A, B, C](fa: F[A], fb: F[B], f: A Ior B => C): IsEq[F[C]] =
     fa.alignWith(fb)(f) <-> fa.align(fb).map(f)
+
+  def alignMergeWithConsistent[A](fa1: F[A], fa2: F[A], f: (A, A) => A): IsEq[F[A]] =
+    fa1.alignMergeWith(fa2)(f) <-> fa1.align(fa2).map(_.mergeWith(f))
 
   private def assoc[A, B, C](x: Ior[A, Ior[B, C]]): Ior[Ior[A, B], C] =
     x match {

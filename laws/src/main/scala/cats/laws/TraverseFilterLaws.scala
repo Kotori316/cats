@@ -23,8 +23,8 @@ package cats
 package laws
 
 import cats.data.Nested
-import cats.syntax.all._
-import cats.instances.OptionI._
+import cats.syntax.all.*
+import cats.instances.OptionI.*
 
 trait TraverseFilterLaws[F[_]] extends FunctorFilterLaws[F] {
   implicit override def F: TraverseFilter[F]

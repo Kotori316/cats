@@ -27,7 +27,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.{specialized => sp}
 import scala.util.{Failure, Success, Try}
-import compat.scalaVersionSpecific._
+import compat.scalaVersionSpecific.*
 
 /**
  * A semigroup is any set `A` with an associative operation (`combine`).
@@ -175,9 +175,12 @@ object Semigroup
    */
   @inline def last[A]: Semigroup[A] = (_, y) => y
 
+  @inline def intercalate[A](sep: A)(implicit ev: Semigroup[A]): Semigroup[A] =
+    ev.intercalate(sep)
+
   implicit def catsKernelBoundedSemilatticeForBitSet: BoundedSemilattice[BitSet] =
     cats.kernel.instances.all.catsKernelStdSemilatticeForBitSet
-  implicit def catsKernelInstancesForUnit: BoundedSemilattice[Unit] with CommutativeGroup[Unit] =
+  implicit def catsKernelInstancesForUnit: BoundedSemilattice[Unit] & CommutativeGroup[Unit] =
     cats.kernel.instances.all.catsKernelStdAlgebraForUnit
   implicit def catsKernelCommutativeGroupForByte: CommutativeGroup[Byte] =
     cats.kernel.instances.all.catsKernelStdGroupForByte

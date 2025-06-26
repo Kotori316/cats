@@ -24,7 +24,7 @@ package cats
 import cats.data.Chain
 import cats.data.State
 import cats.data.StateT
-import cats.kernel.compat.scalaVersionSpecific._
+import cats.kernel.compat.scalaVersionSpecific.*
 
 /**
  * Traverse, also known as Traversable.
@@ -296,7 +296,7 @@ object Traverse {
     }
   }
 
-  private[cats] def traverse_Directly[G[_], A, B](
+  private[cats] def traverseVoidDirectly[G[_], A, B](
     fa: IterableOnce[A]
   )(f: A => G[B])(implicit G: StackSafeMonad[G]): G[Unit] = {
     val iter = fa.iterator

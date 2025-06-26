@@ -25,11 +25,11 @@ import cats.{Contravariant, ContravariantMonoidal, Invariant}
 import cats.kernel.{Order, PartialOrder}
 import cats.kernel.laws.discipline.{OrderTests, SerializableTests}
 import cats.laws.discipline.{ContravariantMonoidalTests, DeferTests, MiniInt}
-import cats.laws.discipline.arbitrary._
-import cats.laws.discipline.eq._
+import cats.laws.discipline.arbitrary.*
+import cats.laws.discipline.eq.*
 import cats.tests.Helpers.Ord
-import cats.syntax.all._
-import org.scalacheck.Prop._
+import cats.syntax.all.*
+import org.scalacheck.Prop.*
 
 class OrderSuite extends CatsSuite {
   {
@@ -65,6 +65,17 @@ class OrderSuite extends CatsSuite {
       assert((i.pmax(j)) === (PartialOrder.pmax(i, j)))
     }
   }
+
+  test("Order.fromComparable") {
+    val OrderOfCmp = Order.fromComparable[OrderSuite.Cmp]
+    assert(OrderOfCmp.lt(OrderSuite.Cmp(1), OrderSuite.Cmp(2)))
+    assert(OrderOfCmp.gt(OrderSuite.Cmp(2), OrderSuite.Cmp(1)))
+    assert(OrderOfCmp.eqv(OrderSuite.Cmp(1), OrderSuite.Cmp(1)))
+    val OrderOfCmpSub = Order.fromComparable[OrderSuite.CmpSub]
+    assert(OrderOfCmpSub.lt(OrderSuite.CmpSub(1, "ignored"), OrderSuite.CmpSub(2, "ignored")))
+    assert(OrderOfCmpSub.gt(OrderSuite.CmpSub(2, "ignored"), OrderSuite.CmpSub(1, "ignored")))
+    assert(OrderOfCmpSub.eqv(OrderSuite.CmpSub(1, "a"), OrderSuite.CmpSub(1, "b")))
+  }
 }
 
 object OrderSuite {
@@ -86,5 +97,16 @@ object OrderSuite {
     }
     implicit val ord: Order[C] = Order.allEqual
     Ordering[C]
+  }
+
+  class Cmp(protected val n: Int) extends Comparable[Cmp] {
+    override def compareTo(o: Cmp): Int = n.compare(o.n)
+  }
+  object Cmp {
+    def apply(n: Int): Cmp = new Cmp(n)
+  }
+  class CmpSub(override protected val n: Int, private val ignored: String) extends Cmp(n)
+  object CmpSub {
+    def apply(n: Int, ignored: String): CmpSub = new CmpSub(n, ignored)
   }
 }
