@@ -1,1 +1,1 @@
-ThisBuild / version := "2.12.1-kotori"
+ThisBuild / version := "2.13.0-kotori"
